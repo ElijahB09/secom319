@@ -47,6 +47,12 @@
   padding: .75rem 1rem;
 }
 
+.weather {
+  width: 3em;
+  height: 3em;
+  display: none;
+}
+
 .red-snowflake {
   fill: red;
 }
@@ -57,4 +63,51 @@
 
 .blue-snowflake {
   fill: blue;
+}
+
+.temperature-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.temperature-box {
+  width: 40%;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.temperature {
+  font-size: 2em;
+}
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+}
+
+.arrow {
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
+}
+
+.arrow-button {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #8e8e8e; /* Blue color for buttons */
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.arrow:hover {
+  fill: #0056b3; /* Darker blue color on hover */
 }

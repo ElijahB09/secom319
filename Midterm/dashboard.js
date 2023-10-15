@@ -1,6 +1,11 @@
 /* globals Chart:false */
 let temperatures = null;
-let snowflake = document.getElementById('snowflake-graph');
+let snowflake = document.getElementById('weather-snowflake');
+let sun = document.getElementById('weather-sun');
+let upButton = document.getElementById('upButton');
+let downButton = document.getElementById('downButton');
+let tempText = document.getElementById('temp-text');
+
 let chartJson = {
 	type: 'line',
 	data: {
@@ -41,14 +46,9 @@ function initializeChart() {
 		chartJson.data.labels.push(tempDate.toLocaleDateString());
 		chartJson.data.datasets[0].data.push(tempObj.temperature_f);
 	});
-	averageTmp = averageTmp/temperatures?.data.length;
-	if(averageTmp > 80) {
-		snowflake.classList.add('red-snowflake');
-	} else if (averageTmp > 50) {
-		snowflake.classList.add('light-blue-snowflake')
-	} else {
-		snowflake.classList.add('blue-snowflake');
-	}
+	averageTmp = averageTmp / temperatures?.data.length;
+	setImage(averageTmp);
+	tempText.innerHTML = `${Math.trunc(averageTmp)}°F`;
 
 	// Graphs
 	const ctx = document.getElementById('myChart')
@@ -56,3 +56,36 @@ function initializeChart() {
 
 	const myChart = new Chart(ctx, chartJson)
 }
+
+function setImage(temp) {
+	sun.style.display = 'none';
+	snowflake.style.display = 'none';
+	let weatherIcon = temp > 50 ? sun : snowflake;
+	console.log(temp);
+	if (temp > 80) {
+		weatherIcon.style.display = 'block';
+		weatherIcon.style.fill = 'red';
+
+	} else if (temp > 50) {
+		weatherIcon.style.display = 'block';
+		weatherIcon.style.fill = 'cornflowerblue';
+	} else {
+		weatherIcon.style.display = 'block';
+		weatherIcon.style.fill = 'blue';
+
+	}
+}
+
+upButton.addEventListener('click', () => {
+	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length-2));
+	temp += 10;
+	tempText.innerHTML = `${temp}°F`;
+	setImage(temp);
+});
+
+downButton.addEventListener('click', () => {
+	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length-2));
+	temp -= 10;
+	tempText.innerHTML = `${temp}°F`;
+	setImage(temp);
+});
