@@ -46,3 +46,15 @@
 .navbar .form-control {
   padding: .75rem 1rem;
 }
+
+.red-snowflake {
+  fill: red;
+}
+
+.light-blue-snowflake {
+  fill: cornflowerblue;
+}
+
+.blue-snowflake {
+  fill: blue;
+}
