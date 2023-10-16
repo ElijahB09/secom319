@@ -60,13 +60,13 @@ function initializeChart() {
 function setImage(temp) {
 	sun.style.display = 'none';
 	snowflake.style.display = 'none';
-	let weatherIcon = temp > 50 ? sun : snowflake;
+	let weatherIcon = temp > 75 ? sun : snowflake;
 	console.log(temp);
-	if (temp > 80) {
+	if (temp > 75) {
 		weatherIcon.style.display = 'block';
 		weatherIcon.style.fill = 'red';
 
-	} else if (temp > 50) {
+	} else if (temp > 60) {
 		weatherIcon.style.display = 'block';
 		weatherIcon.style.fill = 'cornflowerblue';
 	} else {
