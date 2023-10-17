@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 
 dhtDevice = adafruit_dht.DHT11(board.D4)
-api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json?ref=testPythonUpdate"
+api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json"
 access_token = "<secret here>"
 headers = {
     "Authorization": f"Bearer {access_token}",
