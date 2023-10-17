@@ -31,7 +31,6 @@ while True:
         time.sleep(5.0)
         x = x + 1
     json_data = {"data": json_objs}
-    json_string = json.dumps(json_data, indent=4)
     response = requests.get(api_url, headers=headers)
 
     if response.status_code == 200:
@@ -39,7 +38,7 @@ while True:
         decoded_content = base64.b64decode(data["content"]).decode("utf-8")
         # Modify the JSON data as needed
         current_content = json.loads(decoded_content)
-        current_content = json_string
+        current_content = json_data
         
         # Encode the JSON content to bytes
         updated_content_bytes = current_content.encode("utf-8")
