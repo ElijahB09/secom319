@@ -7,7 +7,7 @@ from datetime import datetime
 
 dhtDevice = adafruit_dht.DHT11(board.D4)
 api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json"
-access_token = "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"
+access_token = "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"
 headers = {
     "Authorization": f"Bearer {access_token}",
     "User-Agent": "SeComs319Midterm"
