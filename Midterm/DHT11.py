@@ -1,4 +1,5 @@
 import requests
+import base64
 import time
 import board
 import adafruit_dht
@@ -35,7 +36,7 @@ while True:
 
     if response.status_code == 200:
         data = response.json()
-        
+        decoded_content = base64.b64decode(data["content"]).decode("utf-8")
         # Modify the JSON data as needed
         current_content = json.loads(data["content"])
         current_content["newField"] = "newData"
