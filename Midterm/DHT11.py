@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 
 dhtDevice = adafruit_dht.DHT11(board.D4)
-api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json"
+api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json?ref=testPythonUpdate"
 access_token = "<secret here>"
 headers = {
     "Authorization": f"Bearer {access_token}",
@@ -39,10 +39,10 @@ while True:
         decoded_content = base64.b64decode(data["content"]).decode("utf-8")
         # Modify the JSON data as needed
         current_content = json.loads(decoded_content)
-        current_content["newField"] = "newData"
+        current_content = json_string
         
         # Encode the JSON content to bytes
-        updated_content_bytes = json_string.encode("utf-8")
+        updated_content_bytes = current_content.encode("utf-8")
 
         # Encode the bytes to Base64
         updated_content_base64 = base64.b64encode(updated_content_bytes).decode()
