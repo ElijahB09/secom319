@@ -38,7 +38,7 @@ while True:
         data = response.json()
         decoded_content = base64.b64decode(data["content"]).decode("utf-8")
         # Modify the JSON data as needed
-        current_content = json.loads(data["content"])
+        current_content = json.loads(decoded_content)
         current_content["newField"] = "newData"
         
         # Encode the JSON content to base64
