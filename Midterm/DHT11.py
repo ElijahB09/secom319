@@ -50,7 +50,7 @@ while True:
         # Create a payload for the PATCH request
         payload = {
             "message": "Update JSON data",
-            "content": updated_content_base64.decode(),
+            "content": updated_content_base64,
             "sha": data["sha"],  # SHA of the current content
         }
 
