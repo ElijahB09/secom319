@@ -112,3 +112,34 @@
 .arrow:hover {
   fill: #0056b3; /* Darker blue color on hover */
 }
+
+#temp-header {
+  margin-bottom: 20px;
+}
+
+#temp-table {
+  table-layout: fixed;
+  width: 100%; /* Set the overall table width */
+
+  /* Define equal or fixed column widths */
+  /* Adjust the column widths as needed */
+  /* In this example, each column has a fixed width */
+  /* You can use percentages or other units */
+}
+
+#temp-table th,
+#temp-table td {
+  text-align: left; /* Center-align content in cells */
+}
+
+/* Optional: Style the table headers for clarity */
+#temp-table th {
+  background-color: #007bff; /* Header background color */
+  color: white; /* Header text color */
+  font-weight: bold;
+}
+
+/* Optional: Style table rows for better readability */
+#temp-table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alternating row background color */
+}
