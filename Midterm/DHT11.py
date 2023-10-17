@@ -41,8 +41,11 @@ while True:
         current_content = json.loads(decoded_content)
         current_content["newField"] = "newData"
         
-        # Encode the JSON content to base64
-        updated_content_base64 = json_string.encode("utf-8").b64encode()
+        # Encode the JSON content to bytes
+        updated_content_bytes = json_string.encode("utf-8")
+
+        # Encode the bytes to Base64
+        updated_content_base64 = base64.b64encode(updated_content_bytes).decode()
         
         # Create a payload for the PATCH request
         payload = {
