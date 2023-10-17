@@ -1,3 +1,58 @@
 {
-    "data": "test"
+    "data": [
+        {
+            "time": "2023-10-17 17:10:02.865100",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 63
+        },
+        {
+            "time": "2023-10-17 17:10:13.402018",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:18.670468",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:23.939078",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:29.207313",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:34.484178",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:39.752303",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:45.020739",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        },
+        {
+            "time": "2023-10-17 17:10:50.288935",
+            "temperature_c": 23,
+            "temperature_f": 73.4,
+            "humidity": 62
+        }
+    ]
 }
