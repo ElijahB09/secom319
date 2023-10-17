@@ -10,6 +10,6 @@ cartContainer.addEventListener('click', function (event) {
 		cartCount++;
 		cartCountElement.textContent = cartCount;
 		cartCountElement.style.fontWeight = 'bold';
-		//addToCart(productId);
+		// addToCart(productId);
 	}
 });
