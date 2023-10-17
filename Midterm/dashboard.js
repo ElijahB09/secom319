@@ -39,13 +39,23 @@ getData();
 setInterval(getData, 5000);
 
 function getData() {
-	fetch('./dummyData.json')
-		.then(response => response.json())
-		.then(data => {
-			temperatures = data;
+	fetch('https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json')
+		.then((response) => {
+			return response.json();
+		})
+		.then((data) => {
+			const downloadUrl = data.download_url;
+			return fetch(downloadUrl);
+		})
+		.then((response) => {
+			return response.json();
+		})
+		.then((jsonData) => {
+			temperatures = jsonData;
 			initializeChart();
 			loadTable();
 			interval++;
+			console.log(jsonData);
 		});
 }
 
