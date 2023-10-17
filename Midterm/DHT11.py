@@ -1,3 +1,4 @@
+import requests
 import time
 import board
 import adafruit_dht
@@ -8,7 +9,8 @@ dhtDevice = adafruit_dht.DHT11(board.D4)
 api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json"
 access_token = "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"
 headers = {
-    "Authorization": f"Bearer {access_token}"
+    "Authorization": f"Bearer {access_token}",
+    "User-Agent": "SeComs319Midterm"
 }
 
 while True:
