@@ -1,64 +1,58 @@
 {
     "data": [
         {
-            "time": "2023-10-17 17:53:38.097267",
+            "time": "2023-10-17 18:04:31.894883",
             "temperature_c": 22,
             "temperature_f": 71.6,
             "humidity": 62
         },
         {
-            "time": "2023-10-17 17:53:43.365786",
+            "time": "2023-10-17 18:04:42.431412",
             "temperature_c": 21,
             "temperature_f": 69.80000000000001,
-            "humidity": 62
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:53:48.633984",
+            "time": "2023-10-17 18:04:47.699797",
             "temperature_c": 21,
             "temperature_f": 69.80000000000001,
-            "humidity": 62
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:53:53.902647",
+            "time": "2023-10-17 18:04:52.961805",
             "temperature_c": 21,
             "temperature_f": 69.80000000000001,
-            "humidity": 62
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:53:59.171083",
+            "time": "2023-10-17 18:04:58.223708",
             "temperature_c": 21,
             "temperature_f": 69.80000000000001,
-            "humidity": 62
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:54:04.439130",
-            "temperature_c": 22,
-            "temperature_f": 71.6,
-            "humidity": 62
+            "time": "2023-10-17 18:05:03.491930",
+            "temperature_c": 21,
+            "temperature_f": 69.80000000000001,
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:54:09.707054",
-            "temperature_c": 22,
-            "temperature_f": 71.6,
-            "humidity": 62
+            "time": "2023-10-17 18:05:08.760365",
+            "temperature_c": 21,
+            "temperature_f": 69.80000000000001,
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:54:14.974738",
-            "temperature_c": 22,
-            "temperature_f": 71.6,
-            "humidity": 62
+            "time": "2023-10-17 18:05:14.028592",
+            "temperature_c": 21,
+            "temperature_f": 69.80000000000001,
+            "humidity": 63
         },
         {
-            "time": "2023-10-17 17:54:20.236676",
-            "temperature_c": 22,
-            "temperature_f": 71.6,
-            "humidity": 62
-        },
-        {
-            "time": "2023-10-17 17:54:25.504606",
-            "temperature_c": 22,
-            "temperature_f": 71.6,
-            "humidity": 62
+            "time": "2023-10-17 18:05:19.296989",
+            "temperature_c": 21,
+            "temperature_f": 69.80000000000001,
+            "humidity": 63
         }
     ]
 }
