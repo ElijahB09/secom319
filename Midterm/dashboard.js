@@ -5,6 +5,8 @@ let sun = document.getElementById('weather-sun');
 let upButton = document.getElementById('upButton');
 let downButton = document.getElementById('downButton');
 let tempText = document.getElementById('temp-text');
+let interval = 0;
+let lineGraph;
 
 let chartJson = {
 	type: 'line',
@@ -31,14 +33,26 @@ let chartJson = {
 	}
 }
 
-fetch('./dummyData.json')
-	.then(response => response.json())
-	.then(data => {
-		temperatures = data;
-		initializeChart();
-	});
+
+getData();
+setInterval(getData, 15000);
+function getData() {
+	fetch('./dummyData.json')
+		.then(response => response.json())
+		.then(data => {
+			temperatures = data;
+			initializeChart();
+			interval++;
+		});
+}
+
 
 function initializeChart() {
+	if(interval !== 0) {
+		lineGraph.destroy();
+		chartJson.data.labels = [];
+		chartJson.data.datasets[0].data = [];
+	}
 	let averageTmp = 0;
 	temperatures?.data.forEach((tempObj) => {
 		averageTmp += tempObj.temperature_f;
@@ -51,10 +65,10 @@ function initializeChart() {
 	tempText.innerHTML = `${Math.trunc(averageTmp)}°F`;
 
 	// Graphs
-	const ctx = document.getElementById('myChart')
+	let ctx = document.getElementById('myChart')
 	// eslint-disable-next-line no-unused-vars
 
-	const myChart = new Chart(ctx, chartJson)
+	lineGraph = new Chart(ctx, chartJson)
 }
 
 function setImage(temp) {
