@@ -5,6 +5,8 @@ let sun = document.getElementById('weather-sun');
 let upButton = document.getElementById('upButton');
 let downButton = document.getElementById('downButton');
 let tempText = document.getElementById('temp-text');
+let tempTable = document.getElementById('temp-table');
+let tempRow = document.createElement('tr');
 let interval = 0;
 let lineGraph;
 
@@ -33,22 +35,23 @@ let chartJson = {
 	}
 }
 
-
 getData();
-setInterval(getData, 15000);
+setInterval(getData, 5000);
+
 function getData() {
 	fetch('./dummyData.json')
 		.then(response => response.json())
 		.then(data => {
 			temperatures = data;
 			initializeChart();
+			loadTable();
 			interval++;
 		});
 }
 
 
 function initializeChart() {
-	if(interval !== 0) {
+	if (interval !== 0) {
 		lineGraph.destroy();
 		chartJson.data.labels = [];
 		chartJson.data.datasets[0].data = [];
@@ -71,6 +74,37 @@ function initializeChart() {
 	lineGraph = new Chart(ctx, chartJson)
 }
 
+function loadTable() {
+	while (tempTable.firstChild) {
+		tempTable.removeChild(tempTable.firstChild);
+	}
+
+	temperatures?.data.forEach((tempObj) => {
+		let tempDate = new Date(tempObj.time);
+		tempRow = document.createElement('tr');
+		let cellDate = document.createElement('td');
+		cellDate.textContent = tempDate.toLocaleDateString();
+		tempRow.appendChild(cellDate);
+
+		let cellTempF = document.createElement('td');
+		cellTempF.textContent = tempObj.temperature_f;
+		tempRow.appendChild(cellTempF);
+
+		let cellTempC = document.createElement('td');
+		cellTempC.textContent = tempObj.temperature_c;
+		tempRow.appendChild(cellTempC);
+
+		let cellHumidity = document.createElement('td');
+		cellHumidity.textContent = tempObj.humidity;
+		tempRow.appendChild(cellHumidity);
+
+		tempTable.appendChild(tempRow);
+
+		chartJson.data.labels.push(tempDate.toLocaleDateString());
+		chartJson.data.datasets[0].data.push(tempObj.temperature_f);
+	});
+}
+
 function setImage(temp) {
 	sun.style.display = 'none';
 	snowflake.style.display = 'none';
@@ -91,14 +125,14 @@ function setImage(temp) {
 }
 
 upButton.addEventListener('click', () => {
-	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length-2));
+	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length - 2));
 	temp += 10;
 	tempText.innerHTML = `${temp}°F`;
 	setImage(temp);
 });
 
 downButton.addEventListener('click', () => {
-	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length-2));
+	let temp = parseInt(tempText.innerHTML.substring(0, tempText.innerHTML.length - 2));
 	temp -= 10;
 	tempText.innerHTML = `${temp}°F`;
 	setImage(temp);
