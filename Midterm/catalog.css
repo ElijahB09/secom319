@@ -1,0 +1,8 @@
+#cart-count {
+    color: red;
+}
+
+.card-body {
+    height: 200px; /* Adjust the height as needed */
+    overflow: hidden;
+}

@@ -1,21 +1,9 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <script src="../assets/js/color-modes.js"></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.118.2">
-    <title>Dashboard Template · Bootstrap v5.3</title>
-
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/dashboard/">
-
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-
-    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Products · Bootstrap v5.3</title>
 
     <style>
         .bd-placeholder-img {
@@ -106,6 +94,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
             crossorigin="anonymous"></script>
+    <link href="catalog.css" rel="stylesheet">
 </head>
 <body>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -287,14 +276,14 @@
                                     Products
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link d-flex align-items-center gap-2" href="#">
-                                    <svg class="bi">
-                                        <use xlink:href="#graph-up"/>
-                                    </svg>
-                                    Reports
-                                </a>
-                            </li>
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link d-flex align-items-center gap-2" href="#">-->
+<!--                                    <svg class="bi">-->
+<!--                                        <use xlink:href="#graph-up"/>-->
+<!--                                    </svg>-->
+<!--                                    Reports-->
+<!--                                </a>-->
+<!--                            </li>-->
                         </ul>
                         <hr class="my-3">
                     </div>
@@ -304,27 +293,33 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Products</h1>
+
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button id = "cart-button" type="button"
+                                class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                            </svg>
+                            Cart
+                            <span id="cart-count"><strong>0</strong></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="album py-5 bg-body-tertiary">
                     <div class="container">
 
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                        <div id="cart-container" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                             <div class="col">
                                 <div class="card shadow-sm">
-                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                         xmlns="http://www.w3.org/2000/svg" role="img"
-                                         aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                                         focusable="false"><title>Placeholder</title>
-                                        <rect width="100%" height="100%" fill="#55595c"/>
-                                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                                    </svg>
+                                    <img src="images/camera.jpg" height="100%" width="100%">
                                     <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.</p>
+                                        <p class="card-text">Receive live feeds to your account with a camera connected via Raspberry Pi</p>
+                                        <div>
+                                            <h4 id="product1-price" class="price">$44.99</h4> <!-- Add the price tag here -->
+                                        </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart
+                                                <button type="button" class="btn btn-sm btn-outline-secondary add-to-cart" data-product-id="product1">Add to Cart
                                                 </button>
                                             </div>
                                         </div>
@@ -333,20 +328,15 @@
                             </div>
                             <div class="col">
                                 <div class="card shadow-sm">
-                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                         xmlns="http://www.w3.org/2000/svg" role="img"
-                                         aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                                         focusable="false"><title>Placeholder</title>
-                                        <rect width="100%" height="100%" fill="#55595c"/>
-                                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                                    </svg>
+                                    <img src="images/MotionDetector.jpg" height="100%" width="100%">
                                     <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.</p>
+                                        <p class="card-text">Receive alerts to your account when motion is detected by this raspberry pi device.</p>
+                                        <div>
+                                            <h4 id="product2-price" class="price">$39.99</h4> <!-- Add the price tag here -->
+                                        </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart
+                                                <button type="button" class="btn btn-sm btn-outline-secondary add-to-cart" data-product-id="product2">Add to Cart
                                                 </button>
                                             </div>
                                         </div>
@@ -355,20 +345,15 @@
                             </div>
                             <div class="col">
                                 <div class="card shadow-sm">
-                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225"
-                                         xmlns="http://www.w3.org/2000/svg" role="img"
-                                         aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
-                                         focusable="false"><title>Placeholder</title>
-                                        <rect width="100%" height="100%" fill="#55595c"/>
-                                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-                                    </svg>
+                                    <img src="images/TemperatureMonitor.jpg" height="100%" width="100%">
                                     <div class="card-body">
-                                        <p class="card-text">This is a wider card with supporting text below as a
-                                            natural lead-in to additional content. This content is a little bit
-                                            longer.</p>
+                                        <p class="card-text">See what your home temperature is on your account and adjust it with this device.</p>
+                                        <div>
+                                            <h4 id="product3-price" class="price">$29.99</h4> <!-- Add the price tag here -->
+                                        </div>
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="btn-group">
-                                                <button type="button" class="btn btn-sm btn-outline-secondary">Add to Cart
+                                                <button type="button" class="btn btn-sm btn-outline-secondary add-to-cart" data-product-id="product3">Add to Cart
                                                 </button>
                                             </div>
                                         </div>
@@ -381,5 +366,6 @@
             </main>
         </div>
     </div>
+    <script src="catalog.js"></script>
 </body>
 </html>
