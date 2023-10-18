@@ -43,14 +43,12 @@ let paymentMethod = [
 	'paypal'
 ];
 
+const cartCount = document.getElementById('cart-count');
 const productList = document.getElementById('product-list');
 const redeemButton = document.getElementById('redeem-button');
 const urlSearchParams = new URLSearchParams(window.location.search);
 const params = Object.fromEntries(urlSearchParams.entries());
 let products;
-let count = 0;
-console.log(count++);
-count++;
 
 if (params.products) {
 	const decodedProducts = decodeURIComponent(params.products);
@@ -59,7 +57,7 @@ if (params.products) {
 } else if(!products) {
 	console.log('No products found in URL.');
 }
-console.log(products);
+cartCount.innerHTML = products.length;
 products?.forEach(product => {
 	const listItem = document.createElement('li');
 	listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-sm');

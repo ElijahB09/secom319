@@ -5,10 +5,15 @@ import board
 import adafruit_dht
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+github_key = os.getenv("GITHUB_KEY")
 
 dhtDevice = adafruit_dht.DHT11(board.D4)
 api_url = "https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json"
-access_token = "<secret here>"
+access_token = github_key
 headers = {
     "Authorization": f"Bearer {access_token}",
     "User-Agent": "SeComs319Midterm"
