@@ -36,7 +36,7 @@ let chartJson = {
 }
 
 getData();
-setInterval(getData, 5000);
+setInterval(getData, 600000);
 
 function getData() {
 	fetch('https://api.github.com/repos/ElijahB09/secom319/contents/Midterm/data.json')
