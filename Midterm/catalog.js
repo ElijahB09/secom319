@@ -1,3 +1,21 @@
+products = {
+	product1: {
+		name: 'Home Camera',
+		description: 'Live Feed Camera',
+		price: '44.99'
+	},
+	product2: {
+		name: 'Motion Detector',
+		description: 'Alert Account with Motion Detector',
+		price: '39.99'
+	},
+	product3: {
+		name: 'Smart Thermostat',
+		description: 'Control Home Temperature with Account',
+		price: '29.99'
+	}
+}
+
 let cartCountElement = document.getElementById('cart-count');
 let cartCount = 0;
 let addToCartButtons = document.getElementsByClassName('.add-to-cart');
@@ -8,13 +26,7 @@ const cartProductIds = [];
 addCartContainer.addEventListener('click', function (event) {
 	if (event.target.classList.contains('add-to-cart')) {
 		const productId = event.target.getAttribute('data-product-id');
-		if (productId === 'product1') {
-			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '44.99'});
-		} else if (productId === 'product2') {
-			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '39.99'});
-		} else if (productId === 'product3') {
-			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '29.99'});
-		}
+		cartProductIds.push(products[productId]);
 		cartCount++;
 		cartCountElement.textContent = cartCount;
 		cartCountElement.style.fontWeight = 'bold';
