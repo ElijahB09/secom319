@@ -43,10 +43,55 @@ let paymentMethod = [
 	'paypal'
 ];
 
-// Example starter JavaScript for disabling form submissions if there are invalid fields
+const productList = document.getElementById('product-list');
+const redeemButton = document.getElementById('redeem-button');
+const urlSearchParams = new URLSearchParams(window.location.search);
+const params = Object.fromEntries(urlSearchParams.entries());
+let products;
+let count = 0;
+console.log(count++);
+count++;
+
+if (params.products) {
+	const decodedProducts = decodeURIComponent(params.products);
+	products = JSON.parse(decodedProducts);
+	console.log(products);
+} else if(!products) {
+	console.log('No products found in URL.');
+}
+console.log(products);
+products?.forEach(product => {
+	const listItem = document.createElement('li');
+	listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-sm');
+
+	listItem.innerHTML = `
+	  <div>
+      	<h6 class="my-0">${product.name}</h6>
+      	<small class="text-body-secondary">${product.description}</small>
+      </div>
+      <span class="text-body-secondary">$${product.price}</span>`;
+
+	productList.appendChild(listItem);
+});
+
+redeemButton.addEventListener('click', () => {
+	const input = document.getElementById('redeem-input');
+	const listItem = document.createElement('li');
+	listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+
+	listItem.innerHTML = `
+	  <div class="text-success">
+        <h6 class="my-0">Promo code</h6>
+        <small>${input.value}</small>
+      </div>
+      <span class="text-success">−$5</span>`;
+
+	productList.appendChild(listItem);
+	input.value = '';
+});
 
 // Fetch all the forms we want to apply custom Bootstrap validation styles to
-const forms = document.querySelectorAll('.needs-validation')
+const forms = document.querySelectorAll('.needs-validation');
 
 // Loop over them and prevent submission
 Array.from(forms).forEach(form => {
@@ -56,7 +101,7 @@ Array.from(forms).forEach(form => {
 			event.stopPropagation()
 		}
 
-		form.classList.add('was-validated')
+		// form.classList.add('was-validated')
 		const inputElements = form.querySelectorAll('input');
 
 		// Iterate over the input elements and get their values
@@ -67,7 +112,7 @@ Array.from(forms).forEach(form => {
 			} else if (billingData.includes(inputElement.id)) {
 				data.billing_data[inputElement.id] = inputValue;
 			} else if (paymentMethod.includes(inputElement.id)) {
-				if(inputElement.checked) {
+				if (inputElement.checked) {
 					data.billing_data.paymentMethod = inputElement.id;
 				}
 			} else {

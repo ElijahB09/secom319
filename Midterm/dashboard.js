@@ -39,7 +39,7 @@ getData();
 setInterval(getData, 5000);
 
 function getData() {
-	fetch('./dummyData.json')
+	fetch('./data.json')
 		.then(response => response.json())
 		.then(data => {
 			temperatures = data;
