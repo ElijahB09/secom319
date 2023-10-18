@@ -8,7 +8,13 @@ const cartProductIds = [];
 addCartContainer.addEventListener('click', function (event) {
 	if (event.target.classList.contains('add-to-cart')) {
 		const productId = event.target.getAttribute('data-product-id');
-		cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '10'});
+		if (productId === 'product1') {
+			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '44.99'});
+		} else if (productId === 'product2') {
+			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '39.99'});
+		} else if (productId === 'product3') {
+			cartProductIds.push({name: `${productId}`, description: 'Description Here', price: '29.99'});
+		}
 		cartCount++;
 		cartCountElement.textContent = cartCount;
 		cartCountElement.style.fontWeight = 'bold';
