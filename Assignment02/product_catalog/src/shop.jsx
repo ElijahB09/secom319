@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './shop.css';
 import {RenderProductPage} from './products';
-import {renderCheckout} from './checkout';
+import RenderCheckout from './RenderCheckout';
 import {renderReview} from './review';
 
 export const productsInCart = [];
@@ -15,7 +15,7 @@ export const processCart = () => {
 	userInputSection.classList.remove('collapse');
 }
 
-export const loadReviewPage = () => {
+export const loadReviewPage = (userInfo) => {
 	const checkoutSection = document.getElementById('checkout-section');
 	const userInputSection = document.getElementById('user-input-section');
 	const reviewSection = document.getElementById('review-section');
@@ -43,7 +43,7 @@ const Shop = () => {
 
 	return <div>
 		{RenderProductPage(products)}
-		{renderCheckout()}
+		{RenderCheckout()}
 		{renderReview()}
 	</div>
 };

@@ -19,3 +19,11 @@
     flex: 1;
     text-align: right;
 }
+
+.needs-validation {
+    margin-left: 1.5%;
+}
+
+h4 {
+    padding-top: 1%;
+}
