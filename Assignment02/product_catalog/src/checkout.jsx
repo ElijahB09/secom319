@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import {loadReviewPage} from './shop';
 import Card from 'react-bootstrap/Card';
 import {ListGroup} from 'react-bootstrap';
-import {productsInCart} from './shop.js';
+import {productsInCart} from './shop.jsx';
 
 const renderCartItems = () => {
 	console.log(productsInCart);
