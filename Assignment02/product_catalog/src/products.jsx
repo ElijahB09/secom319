@@ -97,8 +97,9 @@ export const RenderProductPage = (products) => {
 			className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<h1 className="h2">Product Catalog</h1>
 
-			<div className="search-bar">
+			<div className="search-bar-container">
 				<input
+					className="search-input"
 					type="text"
 					placeholder="Search products"
 					value={searchQuery}
