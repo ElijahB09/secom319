@@ -15,45 +15,60 @@ const RenderCheckout = () => {
 	const [country, setCountry] = useState('');
 	const [state, setState] = useState('');
 	const [zipCode, setZipCode] = useState('');
+	const [isZipCodeValid, setIsZipCodeValid] = useState(true);
 	const [creditCardName, setCreditCardName] = useState('');
 	const [creditCardNum, setCreditCardNum] = useState('');
+	const [isCreditCardValid, setIsCreditCardValid] = useState(true);
 	const [creditCardExp, setCreditCardExp] = useState('');
+	const [isCreditCardExpValid, setIsCreditCardExpValid] = useState(true);
 	const [creditCardCCV, setCreditCardCCV] = useState('');
+	const [isCreditCardCCVValid, setIsCreditCardCCVValid] = useState(true);
+
+	const handleCreditCardChange = (e) => {
+		setCreditCardNum(e);
+		setIsCreditCardValid(/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(e));
+	};
+
+	const handleZipCodeChange = (e) => {
+	  setZipCode(e);
+	  setIsZipCodeValid(/^\d{5}$/.test(e));
+	};
+
+	const handleCCVChange = (e) => {
+		setCreditCardCCV(e);
+		setIsCreditCardCCVValid(/^\d{3}$/.test(e));
+	}
+
+	const handleExpDateChange = (e) => {
+		setCreditCardExp(e);
+		setIsCreditCardExpValid(/^\d{2}\/\d{2}$/.test(e));
+	}
 	
-	const handleSubmit = () => {
+	const handleSubmit = (e) => {
+		e.preventDefault();
 		var userInfo;
 		var creditInfo
-		if (givenName && surname && email && address && country && state && zipCode) {
-			userInfo = {
-				givenName,
-				surname,
-				email,
-				address,
-				address2,
-				country,
-				state,
-				zipCode
-			}
-		} else {
-			userInfo = null;
+		userInfo = {
+			givenName,
+			surname,
+			email,
+			address,
+			address2,
+			country,
+			state,
+			zipCode
+		}	
+		creditInfo = {
+			creditCardName,
+			creditCardNum,
+			creditCardExp,
+			creditCardCCV
 		}
-		if (creditCardName && creditCardNum && creditCardExp && creditCardCCV) {
-			creditInfo = {
-				creditCardName,
-				creditCardNum,
-				creditCardExp,
-				creditCardCCV
-			}
-		} else {
-			creditInfo = null;
+		const user = {
+			...userInfo,
+			...creditInfo
 		}
-		if (userInfo && creditInfo) {
-			const user = {
-				...userInfo,
-				...creditInfo
-			}
-			loadReviewPage(user);
-		}
+		loadReviewPage(user);
 	}
 
 	console.log(productsInCart);
@@ -66,7 +81,7 @@ const RenderCheckout = () => {
 	return (
 		<div className='row g-5'>
 			<div id='checkout-section' className="custom-section col-md-5 col-lg-4 order-md-last card collapse" style={{width: '18rem'}}>
-				<Card style={{width: '20rem'}}>
+				<Card>
 					<Card.Body>
 						<Card.Title>Order Summary</Card.Title>
 						<Card.Text>
@@ -76,14 +91,11 @@ const RenderCheckout = () => {
 					<ListGroup className="list-group-flush">
 						{renderItems}
 					</ListGroup>
-
-					<Button onClick={handleSubmit} className="btn btn-secondary"> <i className="bi-arrow-left-circle"></i>
-						Purchase</Button>
 				</Card>
 			</div>
 
 			<div id="user-input-section" className="col-md-7 col-lg-8 collapse needs-validation">
-				<Form>
+				<Form onSubmit={handleSubmit}>
 					<div className="row g-3">
 						<div className="col-sm-6">
 							<Form.Group
@@ -93,7 +105,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>First Name</Form.Label>
-								<Form.Control placeholder="First Name" />
+								<Form.Control placeholder="First Name" required />
 							</Form.Group>
 						</div>
 						<div className='col-sm-6'>
@@ -104,7 +116,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Last Name</Form.Label>
-								<Form.Control placeholder="Last Name" />
+								<Form.Control placeholder="Last Name" required />
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -115,7 +127,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Email</Form.Label>
-								<Form.Control type="email" placeholder="Email" />
+								<Form.Control type="email" placeholder="Email" required />
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -126,7 +138,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Shipping Address</Form.Label>
-								<Form.Control placeholder="Shipping Address" />
+								<Form.Control placeholder="Shipping Address" required />
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -148,7 +160,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Country</Form.Label>
-								<Form.Control placeholder="Country" />
+								<Form.Control placeholder="Country" required />
 							</Form.Group>
 						</div>
 						<div className="col-md-4">
@@ -159,18 +171,19 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>State</Form.Label>
-								<Form.Control type="state" placeholder="State" />
+								<Form.Control type="state" placeholder="State" required />
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
 							<Form.Group
 								controlId="zipCode"
 								onChange={(event) => {
-									setZipCode(event.target.value);
+									handleZipCodeChange(event.target.value);
 								}}
 							>
 								<Form.Label>Zip Code</Form.Label>
-								<Form.Control placeholder="Zip Code" />
+								<Form.Control placeholder="Zip Code" required />
+								{isZipCodeValid ? null : <p>Invalid ZIP code format</p>}
 							</Form.Group>
 						</div>
 					</div>
@@ -186,42 +199,48 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Card Name</Form.Label>
-								<Form.Control placeholder="Name of Credit Card Holder" />
+								<Form.Control placeholder="Name of Credit Card Holder" required />
 							</Form.Group>
 						</div>
 						<div className="col-md-6">
 							<Form.Group
 								controlId="ccNum"
 								onChange={(event) => {
-									setCreditCardNum(event.target.value);
+									handleCreditCardChange(event.target.value);
 								}}
 							>
 								<Form.Label>Card Number</Form.Label>
-								<Form.Control placeholder="Card Number" />
+								<Form.Control placeholder="Card Number" required />
+								{isCreditCardValid ? null : <p>Invalid credit card number</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
 							<Form.Group
 								controlId="ccExp"
 								onChange={(event) => {
-									setCreditCardExp(event.target.value);
+									handleExpDateChange(event.target.value);
 								}}
 							>
 								<Form.Label>Expiration Date</Form.Label>
-								<Form.Control placeholder="XX/XX" />
+								<Form.Control placeholder="XX/XX" required />
+								{isCreditCardExpValid ? null : <p>Invalid Expiration Date</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
 							<Form.Group
 								controlId="ccCCV"
 								onChange={(event) => {
-									setCreditCardCCV(event.target.value);
+									handleCCVChange(event.target.value);
 								}}
 							>
 								<Form.Label>CCV</Form.Label>
-								<Form.Control placeholder="CCV" />
+								<Form.Control placeholder="CCV" required />
+								{isCreditCardCCVValid ? null : <p>Invalid CCV number</p>}
 							</Form.Group>
 						</div>
+					</div>
+					<div className='submit-button'>
+						<Button variant='primary' type='submit'>Purchase</Button>
 					</div>
 				</Form>
 			</div>

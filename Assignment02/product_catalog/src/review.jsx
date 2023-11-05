@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 export const renderReview = (userInfo) => {
 	return (
-	<div className='custom-section row g-5'>
+	<div className='review-custom-section row g-5'>
 		<div id='review-section' className="col-md-5 col-lg-4 order-md-last card collapse" style={{width: '18rem'}}>
 			<div className="card-body">
 				<h5 className="card-title">Order summary</h5>
