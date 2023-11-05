@@ -60,11 +60,11 @@ const RenderCheckout = () => {
 	const renderItems = productsInCart.map((item, index) => (
 		<ListGroup.Item key={index} className="item-container">
 			<div className="item-title">{item.title}</div>
-			<div className="item-price">{item.price}</div>
+			<div className="item-price">${item.price}</div>
 		</ListGroup.Item>
 	));
 	return (
-		<div className="row g-5">
+		<div className='row g-5'>
 			<div id='checkout-section' className="custom-section col-md-5 col-lg-4 order-md-last card collapse" style={{width: '18rem'}}>
 				<Card style={{width: '20rem'}}>
 					<Card.Body>
@@ -76,10 +76,6 @@ const RenderCheckout = () => {
 					<ListGroup className="list-group-flush">
 						{renderItems}
 					</ListGroup>
-					<Card.Body>
-						<Card.Link href="#">Card Link</Card.Link>
-						<Card.Link href="#">Another Link</Card.Link>
-					</Card.Body>
 
 					<Button onClick={handleSubmit} className="btn btn-secondary"> <i className="bi-arrow-left-circle"></i>
 						Purchase</Button>

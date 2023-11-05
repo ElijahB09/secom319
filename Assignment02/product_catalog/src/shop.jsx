@@ -5,8 +5,9 @@ import RenderCheckout from './RenderCheckout';
 import {renderReview} from './review';
 
 export const productsInCart = [];
+var user = null;
 
-export const processCart = () => {
+export const processCart = (items) => {
 	const productCatalog = document.getElementById('product-catalog');
 	const checkoutSection = document.getElementById('checkout-section');
 	const userInputSection = document.getElementById('user-input-section');
@@ -22,6 +23,8 @@ export const loadReviewPage = (userInfo) => {
 	checkoutSection.classList.add('collapse');
 	userInputSection.classList.add('collapse');
 	reviewSection.classList.remove('collapse');
+	user = userInfo;
+	renderReview(user);
 }
 
 
@@ -44,7 +47,7 @@ const Shop = () => {
 	return <div>
 		{RenderProductPage(products)}
 		{RenderCheckout()}
-		{renderReview()}
+		{renderReview(user)}
 	</div>
 };
 
