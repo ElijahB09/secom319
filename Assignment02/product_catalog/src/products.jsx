@@ -64,6 +64,7 @@ export const RenderProductPage = (products) => {
 
 	const [cartCount, setCartCount] = useState(0);
 	const [productCounts, setProductCounts] = useState({});
+	const [searchQuery, setSearchQuery] = useState('');
 
 	const addProductToCart = (product, isAdd) => {
 		const currentCount = productCounts[product.id] || 0;
@@ -85,13 +86,26 @@ export const RenderProductPage = (products) => {
 				});
 			}
 		}
-
 	}
+
+	const filteredProducts = products.filter((product) =>
+		product.title.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	return <div className="col-md-11 ms-sm-auto col-lg-12 px-md-4">
 		<div
 			className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 			<h1 className="h2">Product Catalog</h1>
+
+			<div className="search-bar-container">
+				<input
+					className="search-input"
+					type="text"
+					placeholder="Search products"
+					value={searchQuery}
+					onChange={(e) => setSearchQuery(e.target.value)}
+				/>
+			</div>
 
 			<div className="btn-toolbar mb-2 mb-md-0">
 				<button id="cart-button" type="button"
@@ -110,7 +124,7 @@ export const RenderProductPage = (products) => {
 
 		<div id='product-catalog' className="flex fixed flex-row">
 			<div className="ml-5 p-10 xl:basis-4/5">
-				{renderProducts(products, productCounts, addProductToCart)}
+				{renderProducts(filteredProducts, productCounts, addProductToCart)}
 			</div>
 		</div>
 	</div>
