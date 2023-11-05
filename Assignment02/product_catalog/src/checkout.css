@@ -1,6 +1,6 @@
 .custom-section {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0%;
+    padding-right: 0%;
 }
 
 .item-container {
@@ -25,5 +25,9 @@
 }
 
 h4 {
+    padding-top: 1%;
+}
+
+.submit-button {
     padding-top: 1%;
 }
