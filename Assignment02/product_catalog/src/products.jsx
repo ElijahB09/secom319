@@ -5,11 +5,13 @@ import {Col, Row} from 'react-bootstrap';
 import {processCart, productsInCart} from './shop';
 import './products.css';
 
-const render_card = (product, addProductToCart) => {
+const render_card = (product, productCounts, addProductToCart) => {
 	const formatter = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
 	});
+
+	const count = productCounts[product.id] || 0;
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
 			<Card.Img variant="top" alt='Product Image_2' src={product.image}/>
@@ -22,20 +24,16 @@ const render_card = (product, addProductToCart) => {
 				<div>
 					<h4 id="product3-price" className="price">{formatter.format(product.price)}</h4>
 				</div>
-				{/*<Button onClick={() => addProductToCart(product)} className="btn btn-sm" variant="primary">Add to Cart*/}
-				{/*	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"*/}
-				{/*		 className="bi bi-plus" viewBox="0 0 16 16">*/}
-				{/*		<path*/}
-				{/*			d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>*/}
-				{/*	</svg>*/}
-				{/*</Button>*/}
 				<div className="input-group input-group-sm">
 					<div className="input-group-prepend">
-						<Button onClick={() => addProductToCart(product)} className="btn" variant="primary">+</Button>
+						<Button onClick={() => addProductToCart(product, true)} className="btn"
+								variant="primary">+</Button>
 					</div>
-					<input type="text" className="form-control input-sm" value="0"/>
+					<input id={`product-num-${product.id}`} type="text" className="form-control input-sm"
+						   value={count}/>
 					<div className="input-group-append">
-						<Button onClick={() => addProductToCart(product)} className="btn" variant="primary">-</Button>
+						<Button onClick={() => addProductToCart(product, false)} className="btn"
+								variant="primary">-</Button>
 					</div>
 				</div>
 			</Card.Body>
@@ -43,8 +41,7 @@ const render_card = (product, addProductToCart) => {
 	);
 }
 
-export const renderProducts = (products, addProductToCart) => {
-	console.log(products);
+export const renderProducts = (products, productCounts, addProductToCart) => {
 	return <div className='category-section fixed'>
 		<div className="m-6 p-3 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
 			 style={{
@@ -54,7 +51,7 @@ export const renderProducts = (products, addProductToCart) => {
 				{products.map((product) => (
 					<div key={product.id}>
 						<Col>
-							{render_card(product, addProductToCart)}
+							{render_card(product, productCounts, addProductToCart)}
 						</Col>
 					</div>
 				))}
@@ -66,10 +63,29 @@ export const renderProducts = (products, addProductToCart) => {
 export const RenderProductPage = (products) => {
 
 	const [cartCount, setCartCount] = useState(0);
+	const [productCounts, setProductCounts] = useState({});
 
-	const addProductToCart = (product) => {
-		setCartCount(cartCount + 1);
-		productsInCart.push(product);
+	const addProductToCart = (product, isAdd) => {
+		const currentCount = productCounts[product.id] || 0;
+		if (isAdd) {
+			setCartCount(cartCount + 1);
+			setProductCounts({
+				...productCounts,
+				[product.id]: currentCount + 1,
+			});
+			productsInCart.push(product);
+		} else {
+			const index = productsInCart.indexOf(product);
+			if (index !== -1) {
+				productsInCart.splice(index, 1);
+				setCartCount(cartCount - 1);
+				setProductCounts({
+					...productCounts,
+					[product.id]: currentCount - 1,
+				});
+			}
+		}
+
 	}
 
 	return <div className="col-md-11 ms-sm-auto col-lg-12 px-md-4">
@@ -94,7 +110,7 @@ export const RenderProductPage = (products) => {
 
 		<div id='product-catalog' className="flex fixed flex-row">
 			<div className="ml-5 p-10 xl:basis-4/5">
-				{renderProducts(products, addProductToCart)}
+				{renderProducts(products, productCounts, addProductToCart)}
 			</div>
 		</div>
 	</div>
