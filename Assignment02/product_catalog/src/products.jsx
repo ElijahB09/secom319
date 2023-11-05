@@ -2,14 +2,11 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import React, {useState} from 'react';
 import {Col, Row} from 'react-bootstrap';
-import {processCart, productsInCart} from './shop';
+import {formatter, processCart, productsInCart} from './shop';
 import './products.css';
 
 const render_card = (product, productCounts, addProductToCart) => {
-	const formatter = new Intl.NumberFormat('en-US', {
-		style: 'currency',
-		currency: 'USD',
-	});
+
 
 	const count = productCounts[product.id] || 0;
 	return (
