@@ -67,6 +67,7 @@ const RenderCheckout = (user, setUser) => {
 	const renderItems = productsInCart.map((item, index) => (
 		<ListGroup.Item key={index} className="item-container">
 			<div className="item-title">{item.title}</div>
+			<div className="item-quantity">x{item.quantity}</div>
 			<div className="item-price">{formatter.format(item.price)}</div>
 		</ListGroup.Item>
 	));
