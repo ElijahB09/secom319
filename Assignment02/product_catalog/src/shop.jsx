@@ -5,7 +5,12 @@ import RenderCheckout from './RenderCheckout';
 import {renderReview} from './review';
 
 export const productsInCart = [];
-var user = null;
+export let user = {};
+
+export const formatter = new Intl.NumberFormat('en-US', {
+	style: 'currency',
+	currency: 'USD',
+});
 
 export const processCart = (items) => {
 	const productCatalog = document.getElementById('product-catalog');
@@ -30,6 +35,20 @@ export const loadReviewPage = (userInfo) => {
 
 const Shop = () => {
 	const [products, setProducts] = useState([]);
+	const [user, setUser] = useState({
+		givenName: '',
+		surname: '',
+		email: '',
+		address: '',
+		address2: '',
+		country: '',
+		state: '',
+		zipCode: '',
+		creditCardName: '',
+		creditCardNum: '',
+		creditCardExp: '',
+		creditCardCCV: '',
+	});
 
 	useEffect(() => {
 		// Fetch data when the component mounts
@@ -46,7 +65,7 @@ const Shop = () => {
 
 	return <div>
 		{RenderProductPage(products)}
-		{RenderCheckout()}
+		{RenderCheckout(user, setUser)}
 		{renderReview(user)}
 	</div>
 };

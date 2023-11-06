@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './checkout.css';
-import {Button, Form} from 'react-bootstrap';
-import {loadReviewPage} from './shop';
+import {Button, Form, ListGroup} from 'react-bootstrap';
+import {formatter, loadReviewPage} from './shop';
 import Card from 'react-bootstrap/Card';
-import {ListGroup} from 'react-bootstrap';
 import {productsInCart} from './shop.jsx';
 
-const RenderCheckout = () => {
+const RenderCheckout = (user, setUser) => {
 	const [givenName, setGivenName] = useState('');
 	const [surname, setSurname] = useState('');
 	const [email, setEmail] = useState('');
@@ -60,28 +59,21 @@ const RenderCheckout = () => {
 			(creditCardExp === '' && isCreditCardExpValid) || !isCreditCardExpValid) {
 			window.alert("All fields must be correctly filled out");
 		} else {
-			var userInfo;
-			var creditInfo
-			userInfo = {
-				givenName,
-				surname,
-				email,
-				address,
-				address2,
-				country,
-				state,
-				zipCode
-			}	
-			creditInfo = {
-				creditCardName,
-				creditCardNum,
-				creditCardExp,
-				creditCardCCV
-			}
-			const user = {
-				...userInfo,
-				...creditInfo
-			}
+			setUser({
+				...user,
+				givenName: givenName,
+				surname: surname,
+				email: email,
+				address: address,
+				address2: address2,
+				country: country,
+				state: state,
+				zipCode: zipCode,
+				creditCardNum: creditCardNum,
+				creditCardName: creditCardName,
+				creditCardCCV: creditCardCCV,
+				creditCardExp: creditCardExp
+			});
 			loadReviewPage(user);
 		}
 	}
@@ -90,12 +82,16 @@ const RenderCheckout = () => {
 	const renderItems = productsInCart.map((item, index) => (
 		<ListGroup.Item key={index} className="item-container">
 			<div className="item-title">{item.title}</div>
-			<div className="item-price">${item.price}</div>
+			<div className="item-price">{formatter.format(item.price)}</div>
 		</ListGroup.Item>
 	));
+	const price = productsInCart.reduce((totalCost, product) => {
+		return totalCost + product.price;
+	}, 0);
 	return (
 		<div className='row g-5'>
-			<div id='checkout-section' className="custom-section col-md-5 col-lg-4 order-md-last card collapse" style={{width: '18rem'}}>
+			<div id='checkout-section' className="custom-section col-md-5 col-lg-4 order-md-last card collapse"
+				 style={{width: '18rem'}}>
 				<Card>
 					<Card.Body>
 						<Card.Title>Order Summary</Card.Title>
@@ -105,6 +101,10 @@ const RenderCheckout = () => {
 					</Card.Body>
 					<ListGroup className="list-group-flush">
 						{renderItems}
+						<ListGroup.Item className="d-flex justify-content-between">
+							<span>Total:</span>
+							<span><strong>{formatter.format(price)}</strong></span>
+						</ListGroup.Item>
 					</ListGroup>
 				</Card>
 			</div>
@@ -120,7 +120,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>First Name</Form.Label>
-								<Form.Control placeholder="First Name" required />
+								<Form.Control placeholder="First Name" required/>
 							</Form.Group>
 						</div>
 						<div className='col-sm-6'>
@@ -131,7 +131,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Last Name</Form.Label>
-								<Form.Control placeholder="Last Name" required />
+								<Form.Control placeholder="Last Name" required/>
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -142,7 +142,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Email</Form.Label>
-								<Form.Control type="email" placeholder="Email" required />
+								<Form.Control type="email" placeholder="Email" required/>
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -153,7 +153,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Shipping Address</Form.Label>
-								<Form.Control placeholder="Shipping Address" required />
+								<Form.Control placeholder="Shipping Address" required/>
 							</Form.Group>
 						</div>
 						<div className="col-12">
@@ -164,7 +164,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Address 2 (Optional)</Form.Label>
-								<Form.Control placeholder="Address 2" />
+								<Form.Control placeholder="Address 2"/>
 							</Form.Group>
 						</div>
 						<div className="col-md-5">
@@ -175,7 +175,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Country</Form.Label>
-								<Form.Control placeholder="Country" required />
+								<Form.Control placeholder="Country" required/>
 							</Form.Group>
 						</div>
 						<div className="col-md-4">
@@ -186,7 +186,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>State</Form.Label>
-								<Form.Control type="state" placeholder="State" required />
+								<Form.Control type="state" placeholder="State" required/>
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
@@ -214,7 +214,7 @@ const RenderCheckout = () => {
 								}}
 							>
 								<Form.Label>Card Name</Form.Label>
-								<Form.Control placeholder="Name of Credit Card Holder" required />
+								<Form.Control placeholder="Name of Credit Card Holder" required/>
 							</Form.Group>
 						</div>
 						<div className="col-md-6">
