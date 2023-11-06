@@ -211,7 +211,7 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>Card Number</Form.Label>
-								<Form.Control placeholder="Card Number" required/>
+								<Form.Control placeholder="xxxx-xxxx-xxxx-xxxx" required/>
 								{isCreditCardValid ? null : <p>Invalid credit card number</p>}
 							</Form.Group>
 						</div>
