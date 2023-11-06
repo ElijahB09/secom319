@@ -50,7 +50,7 @@ const RenderCheckout = (user, setUser) => {
 			setCreditCardExp(e);
 		}
 	};
-	
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if ((zipCode === '' && isZipCodeValid) || !isZipCodeValid ||
@@ -82,6 +82,7 @@ const RenderCheckout = (user, setUser) => {
 	const renderItems = productsInCart.map((item, index) => (
 		<ListGroup.Item key={index} className="item-container">
 			<div className="item-title">{item.title}</div>
+			<div className="item-quantity">x{item.quantity}</div>
 			<div className="item-price">{formatter.format(item.price)}</div>
 		</ListGroup.Item>
 	));
@@ -225,7 +226,7 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>Card Number</Form.Label>
-								<Form.Control placeholder="Card Number" required />
+								<Form.Control placeholder="xxxx-xxxx-xxxx-xxxx" required />
 								{isCreditCardValid ? null : <p className='invalid-text'>Invalid credit card number</p>}
 							</Form.Group>
 						</div>

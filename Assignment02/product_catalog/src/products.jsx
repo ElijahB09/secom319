@@ -71,7 +71,15 @@ export const RenderProductPage = (products) => {
 				...productCounts,
 				[product.id]: currentCount + 1,
 			});
-			productsInCart.push(product);
+			if(productsInCart.indexOf(product) === -1) {
+				product['quantity'] = 1;
+				productsInCart.push(product);
+
+			} else {
+				const item = productsInCart.find((item) => product.id === item.id);
+				item['quantity'] = item.quantity+1;
+			}
+
 		} else {
 			const index = productsInCart.indexOf(product);
 			if (index !== -1) {
@@ -83,6 +91,7 @@ export const RenderProductPage = (products) => {
 				});
 			}
 		}
+		console.log(productsInCart);
 	}
 
 	const filteredProducts = products.filter((product) =>
