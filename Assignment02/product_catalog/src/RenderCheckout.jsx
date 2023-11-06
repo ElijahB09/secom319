@@ -25,50 +25,65 @@ const RenderCheckout = () => {
 	const [isCreditCardCCVValid, setIsCreditCardCCVValid] = useState(true);
 
 	const handleCreditCardChange = (e) => {
-		setCreditCardNum(e);
 		setIsCreditCardValid(/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(e));
+		if (isCreditCardValid) {
+			setCreditCardNum(e);
+		}
 	};
 
 	const handleZipCodeChange = (e) => {
-	  setZipCode(e);
 	  setIsZipCodeValid(/^\d{5}$/.test(e));
+	  if (isZipCodeValid) {
+		setZipCode(e);
+	  }
 	};
 
 	const handleCCVChange = (e) => {
-		setCreditCardCCV(e);
 		setIsCreditCardCCVValid(/^\d{3}$/.test(e));
-	}
+		if (isCreditCardCCVValid) {
+			setCreditCardCCV(e);
+		}
+	};
 
 	const handleExpDateChange = (e) => {
-		setCreditCardExp(e);
 		setIsCreditCardExpValid(/^\d{2}\/\d{2}$/.test(e));
-	}
+		if (isCreditCardExpValid) {
+			setCreditCardExp(e);
+		}
+	};
 	
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		var userInfo;
-		var creditInfo
-		userInfo = {
-			givenName,
-			surname,
-			email,
-			address,
-			address2,
-			country,
-			state,
-			zipCode
-		}	
-		creditInfo = {
-			creditCardName,
-			creditCardNum,
-			creditCardExp,
-			creditCardCCV
+		if ((zipCode === '' && isZipCodeValid) || !isZipCodeValid ||
+			(creditCardNum === '' && isCreditCardValid) || !isCreditCardValid ||
+			(creditCardCCV === '' && isCreditCardCCVValid) || !isCreditCardCCVValid ||
+			(creditCardExp === '' && isCreditCardExpValid) || !isCreditCardExpValid) {
+			window.alert("All fields must be correctly filled out");
+		} else {
+			var userInfo;
+			var creditInfo
+			userInfo = {
+				givenName,
+				surname,
+				email,
+				address,
+				address2,
+				country,
+				state,
+				zipCode
+			}	
+			creditInfo = {
+				creditCardName,
+				creditCardNum,
+				creditCardExp,
+				creditCardCCV
+			}
+			const user = {
+				...userInfo,
+				...creditInfo
+			}
+			loadReviewPage(user);
 		}
-		const user = {
-			...userInfo,
-			...creditInfo
-		}
-		loadReviewPage(user);
 	}
 
 	console.log(productsInCart);
@@ -183,7 +198,7 @@ const RenderCheckout = () => {
 							>
 								<Form.Label>Zip Code</Form.Label>
 								<Form.Control placeholder="Zip Code" required />
-								{isZipCodeValid ? null : <p>Invalid ZIP code format</p>}
+								{isZipCodeValid ? null : <p className='invalid-text'>Invalid ZIP code format</p>}
 							</Form.Group>
 						</div>
 					</div>
@@ -211,7 +226,7 @@ const RenderCheckout = () => {
 							>
 								<Form.Label>Card Number</Form.Label>
 								<Form.Control placeholder="Card Number" required />
-								{isCreditCardValid ? null : <p>Invalid credit card number</p>}
+								{isCreditCardValid ? null : <p className='invalid-text'>Invalid credit card number</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
@@ -223,7 +238,7 @@ const RenderCheckout = () => {
 							>
 								<Form.Label>Expiration Date</Form.Label>
 								<Form.Control placeholder="XX/XX" required />
-								{isCreditCardExpValid ? null : <p>Invalid Expiration Date</p>}
+								{isCreditCardExpValid ? null : <p className='invalid-text'>Invalid Expiration Date</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
@@ -235,7 +250,7 @@ const RenderCheckout = () => {
 							>
 								<Form.Label>CCV</Form.Label>
 								<Form.Control placeholder="CCV" required />
-								{isCreditCardCCVValid ? null : <p>Invalid CCV number</p>}
+								{isCreditCardCCVValid ? null : <p className='invalid-text'>Invalid CCV number</p>}
 							</Form.Group>
 						</div>
 					</div>
