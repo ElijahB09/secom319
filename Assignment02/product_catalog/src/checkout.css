@@ -3,6 +3,10 @@
     padding-right: 0%;
 }
 
+.invalid-text {
+    color: red;
+}
+
 .item-container {
     display: flex;
     justify-content: space-between;

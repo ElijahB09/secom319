@@ -24,43 +24,58 @@ const RenderCheckout = (user, setUser) => {
 	const [isCreditCardCCVValid, setIsCreditCardCCVValid] = useState(true);
 
 	const handleCreditCardChange = (e) => {
-		setCreditCardNum(e);
 		setIsCreditCardValid(/^\d{4}-\d{4}-\d{4}-\d{4}$/.test(e));
+		if (isCreditCardValid) {
+			setCreditCardNum(e);
+		}
 	};
 
 	const handleZipCodeChange = (e) => {
+	  setIsZipCodeValid(/^\d{5}$/.test(e));
+	  if (isZipCodeValid) {
 		setZipCode(e);
-		setIsZipCodeValid(/^\d{5}$/.test(e));
+	  }
 	};
 
 	const handleCCVChange = (e) => {
-		setCreditCardCCV(e);
 		setIsCreditCardCCVValid(/^\d{3}$/.test(e));
-	}
+		if (isCreditCardCCVValid) {
+			setCreditCardCCV(e);
+		}
+	};
 
 	const handleExpDateChange = (e) => {
-		setCreditCardExp(e);
 		setIsCreditCardExpValid(/^\d{2}\/\d{2}$/.test(e));
-	}
+		if (isCreditCardExpValid) {
+			setCreditCardExp(e);
+		}
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setUser({
-			...user,
-			givenName: givenName,
-			surname: surname,
-			email: email,
-			address: address,
-			address2: address2,
-			country: country,
-			state: state,
-			zipCode: zipCode,
-			creditCardNum: creditCardNum,
-			creditCardName: creditCardName,
-			creditCardCCV: creditCardCCV,
-			creditCardExp: creditCardExp
-		});
-		loadReviewPage(user);
+		if ((zipCode === '' && isZipCodeValid) || !isZipCodeValid ||
+			(creditCardNum === '' && isCreditCardValid) || !isCreditCardValid ||
+			(creditCardCCV === '' && isCreditCardCCVValid) || !isCreditCardCCVValid ||
+			(creditCardExp === '' && isCreditCardExpValid) || !isCreditCardExpValid) {
+			window.alert("All fields must be correctly filled out");
+		} else {
+			setUser({
+				...user,
+				givenName: givenName,
+				surname: surname,
+				email: email,
+				address: address,
+				address2: address2,
+				country: country,
+				state: state,
+				zipCode: zipCode,
+				creditCardNum: creditCardNum,
+				creditCardName: creditCardName,
+				creditCardCCV: creditCardCCV,
+				creditCardExp: creditCardExp
+			});
+			loadReviewPage(user);
+		}
 	}
 
 	console.log(productsInCart);
@@ -183,8 +198,8 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>Zip Code</Form.Label>
-								<Form.Control placeholder="Zip Code" required/>
-								{isZipCodeValid ? null : <p>Invalid ZIP code format</p>}
+								<Form.Control placeholder="Zip Code" required />
+								{isZipCodeValid ? null : <p className='invalid-text'>Invalid ZIP code format</p>}
 							</Form.Group>
 						</div>
 					</div>
@@ -211,8 +226,8 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>Card Number</Form.Label>
-								<Form.Control placeholder="xxxx-xxxx-xxxx-xxxx" required/>
-								{isCreditCardValid ? null : <p>Invalid credit card number</p>}
+								<Form.Control placeholder="xxxx-xxxx-xxxx-xxxx" required />
+								{isCreditCardValid ? null : <p className='invalid-text'>Invalid credit card number</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
@@ -223,8 +238,8 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>Expiration Date</Form.Label>
-								<Form.Control placeholder="XX/XX" required/>
-								{isCreditCardExpValid ? null : <p>Invalid Expiration Date</p>}
+								<Form.Control placeholder="XX/XX" required />
+								{isCreditCardExpValid ? null : <p className='invalid-text'>Invalid Expiration Date</p>}
 							</Form.Group>
 						</div>
 						<div className="col-md-3">
@@ -235,8 +250,8 @@ const RenderCheckout = (user, setUser) => {
 								}}
 							>
 								<Form.Label>CCV</Form.Label>
-								<Form.Control placeholder="CCV" required/>
-								{isCreditCardCCVValid ? null : <p>Invalid CCV number</p>}
+								<Form.Control placeholder="CCV" required />
+								{isCreditCardCCVValid ? null : <p className='invalid-text'>Invalid CCV number</p>}
 							</Form.Group>
 						</div>
 					</div>
