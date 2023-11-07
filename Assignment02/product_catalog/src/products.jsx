@@ -83,12 +83,15 @@ export const RenderProductPage = (products) => {
 		} else {
 			const index = productsInCart.indexOf(product);
 			if (index !== -1) {
-				productsInCart.splice(index, 1);
 				setCartCount(cartCount - 1);
 				setProductCounts({
 					...productCounts,
 					[product.id]: currentCount - 1,
 				});
+				product['quantity'] -= 1;
+				if(product.quantity === 0) {
+					productsInCart.splice(index, 1);
+				}
 			}
 		}
 		console.log(productsInCart);
