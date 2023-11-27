@@ -21,6 +21,47 @@ app.get("/rooms", async (req, res) => {
     }
 });
 
+app.get("/rooms/:id", async (req, res) => {
+    const roomId = Number(req.params.id);
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+    const { data, error } = await supabase.from("room").select().eq("id", roomId);
+    console.log(data);
+    if (error) {
+        res.status(error.code);
+        res.send(JSON.stringify(error));
+    } else {
+        res.status(200);
+        res.send(data); 
+    }
+});
+
+app.get("/patients", async (req, res) => {
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+    const { data, error } = await supabase.from("patient").select();
+    console.log(data);
+    if (error) {
+        res.status(error.code);
+        res.send(JSON.stringify(error));
+    } else {
+        res.status(200);
+        res.send(data); 
+    }
+});
+
+app.get("/patients/:id", async (req, res) => {
+    const patientId = Number(req.params.id);
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+    const { data, error } = await supabase.from("patient").select().eq("id", patientId);
+    console.log(data);
+    if (error) {
+        res.status(error.code);
+        res.send(JSON.stringify(error));
+    } else {
+        res.status(200);
+        res.send(data); 
+    }
+});
+
 const port = "8081";
 const host = "localhost";
 
