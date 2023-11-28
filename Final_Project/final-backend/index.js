@@ -62,6 +62,41 @@ app.get("/patients/:id", async (req, res) => {
     }
 });
 
+app.post("/patients", async (req, res) => {
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+    const { data, error } = await supabase
+        .from("patient")
+        .insert([req.body])
+        .select();
+    if (error) {
+        console.log(error);
+        res.status(error.code);
+        res.send(error);
+    }
+    const { data: roomData, roomError } = await supabase
+        .from('room')
+        .select('*')
+        .is('patient', null)
+        .limit(1);
+    if (roomError) {
+        console.log(roomError);
+        res.status(roomError.code);
+        res.send(roomError);
+    }
+    const { data: putData, putError } = await supabase
+        .from("room")
+        .update({ patient: data[0].id })
+        .eq("id", roomData[0].id)
+        .select();
+    if (putError) {
+        console.log(putError);
+        res.status(putError.code);
+        res.send(putError);
+    }
+    res.status(200);
+    res.send(putData);
+});
+
 const port = "8081";
 const host = "localhost";
 
