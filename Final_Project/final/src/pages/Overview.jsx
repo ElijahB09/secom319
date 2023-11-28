@@ -5,18 +5,12 @@ import CardComp from '../components/CardComp';
 
 function Overview() {
 	return (
-		<main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-			<div
-				className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-				<h1 className="h2">Home Temperature</h1>
-
-			</div>
-
+		<main className="col-md-8 col-lg-12 px-md-5">
 			<div className="container-fluid">
 				<div className="row" style={{justifyContent: 'center'}}>
-					<CardComp title={'Room 1'} text={'peace out'}/>
-					<CardComp title={'Room 2'} text={'peace out'}/>
-					<CardComp title={'Room 3'} text={'peace out'}/>
+					<CardComp hasTabs={0} title={'Room 1'} temp={'72'} humidity={'35'}/>
+					<CardComp hasTabs={0} title={'Room 2'} temp={'68'} humidity={'38'}/>
+					<CardComp hasTabs={0} title={'Room 3'} temp={'71'} humidity={'36'}/>
 				</div>
 			</div>
 		</main>
