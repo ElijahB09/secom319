@@ -83,6 +83,10 @@ app.post("/patients", async (req, res) => {
         res.status(roomError.code);
         res.send(roomError);
     }
+    else if (roomData.length == 0) {
+        res.status(400);
+        res.send({response: "No open rooms"});
+    }
     const { data: putData, putError } = await supabase
         .from("room")
         .update({ patient: data[0].id })
@@ -96,6 +100,20 @@ app.post("/patients", async (req, res) => {
     res.status(200);
     res.send(putData);
 });
+
+app.delete("/patients/:id", async (req, res) => {
+    const patientId = Number(req.params.id);
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+
+    const { error } = await supabase.from("patient").delete().eq("id", patientId);
+    if (error) {
+        console.log(error);
+        res.status(error.code);
+        res.send(error);
+    }
+    res.status(200);
+    res.send();
+})
 
 const port = "8081";
 const host = "localhost";
