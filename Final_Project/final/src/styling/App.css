@@ -43,7 +43,7 @@
 
 form {
     display: flex !important;
-    justify-content: end;
+    justify-content: flex-end;
     margin-right: 20px;
 }
 
@@ -51,7 +51,7 @@ form {
     margin-left: 75px;
 }
 #nav-search {
-    align-self: end;
+    align-self: flex-end;
     margin-left: 25px;
 }
 

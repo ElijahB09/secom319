@@ -1,15 +1,33 @@
-import {useRef, useState} from 'react';
+import {useState} from 'react';
 import '../styling/App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import '../styling/dashboard.scss'
 import CardComp from '../components/CardComp';
-import SimpleGraph from '../components/SimpleGraph'; // Import the SimpleGraph component
+import Chart from "chart.js/auto";
+import {CategoryScale} from "chart.js";
+import {Data} from '../utils/Data';
+import LineChart from '../components/LineChart';
 
-
+Chart.register(CategoryScale);
 
 function Overview() {
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
+
+	const [chartData, setChartData] = useState({
+		labels: Data.map((data) => data.year),
+		datasets: [
+			{
+				label: "Users Gained ",
+				data: Data.map((data) => data.userGain),
+				backgroundColor: [
+					"#66CCFF"
+				],
+				borderColor: "#4CAF50",
+				borderWidth: 2
+			}
+		]
+	});
 
 	const handleCardClick = () => {
 		setCardOverviewVisible(!cardOverviewVisible);
@@ -47,7 +65,35 @@ function Overview() {
 			{roomViewVisible && (
 				<div id="card-view">
 					<h1>ROOM 1</h1>
-					<SimpleGraph />
+					<div className="row">
+						<LineChart chartData={chartData} title={"Temperature Recording"}/>
+						<LineChart chartData={chartData} title={"Humidity Recording"}/>
+					</div>
+					<div className="row">
+						<div className="col-md-6">
+							<div className="temperature-info">
+								<p>Current Temperature: 68°F</p>
+								<p>Average Deviation: 3°F</p>
+							</div>
+						</div>
+						<div className="col-md-6">
+							<div className="humidity-info">
+								<p>Current Humidity: 20%</p>
+								<p>Average Deviation: 2%</p>
+							</div>
+						</div>
+					</div>
+
+					{/* Room To-Do Section */}
+					<div className="room-todo-section justify-content-center" style={{textAlign: 'center'}}>
+						<h2 style={{textAlign: "center"}}>Room To-Do</h2>
+						<div className="d-flex justify-content-center" style={{textAlign:"start"}}>
+							<ul>
+								<li>Administer medication at 3pm</li>
+								<li>Feed lunch</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			)}
 		</>

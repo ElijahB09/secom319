@@ -1,10 +1,5 @@
 {
   "dependencies": {
-    "@mui/material": "^5.14.18",
-    "chart.js": "^3.9.1",
-    "faker": "^6.6.6",
-    "react-chartjs-2": "^4.3.1",
-    "react-sidebar": "^3.0.2",
-    "recharts": "^2.10.2"
+    "react-sidebar": "^3.0.2"
   }
 }
