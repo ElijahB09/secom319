@@ -1,4 +1,4 @@
-let data = {
+let data1 = {
 	firstName: '',
 	lastName: '',
 	username: '',

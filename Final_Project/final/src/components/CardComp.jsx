@@ -25,7 +25,6 @@ function CardComp(props) {
 	const [activeTab, setActiveTab] = useState('#room-details');
 
 	const handleTabClick = (tab) => {
-		console.log("Hello");
 		setActiveTab(tab);
 	};
 
@@ -34,19 +33,29 @@ function CardComp(props) {
 			case '#room-details':
 				return (
 					<>
-						<Card.Text>Room Details Content</Card.Text>
+						<Card.Text>
+							Temperature: {props.temp}°
+						</Card.Text>
+						<Card.Text>
+							Humidity: {props.humidity}%
+						</Card.Text>
 					</>
 				);
 			case '#todo-list':
 				return (
 					<>
-						<Card.Text>To Do List Content</Card.Text>
+						<Card.Text><strong>9am</strong>: Administer Morning Medication</Card.Text>
+						<Card.Text><strong>11am</strong>: Lunch Time</Card.Text>
+						<Card.Text><strong>4pm</strong>: Administer Afternoon Medication</Card.Text>
+						<Card.Text><strong>7pm</strong>: Dinner Time</Card.Text>
 					</>
 				);
 			case '#patient-info':
 				return (
 					<>
-						<Card.Text>Patient info Content</Card.Text>
+						<Card.Text><strong>Name</strong>: Dr. Doofenshmurtzs</Card.Text>
+						<Card.Text><strong>DOB</strong>: 04/20/1992</Card.Text>
+						<Card.Text><strong>Description</strong>: In the land of poets and thinkers, where the Brothers Grimm spun their tales, find me where the Rhine River winds and the cuckoo's song prevails. Where am I, born of ancient lore, where pretzels twist and legends soar?</Card.Text>
 					</>
 				);
 			default:
@@ -58,7 +67,7 @@ function CardComp(props) {
 		}
 	};
 
-	const cardHead = <RenderCardTabs onTabClick={handleTabClick} />;
+	const cardHead = (!props.noTabs) ? <RenderCardTabs onTabClick={handleTabClick} /> : <></>;
 
 	return (
 		<Card style={{width: '25rem', margin: '15px', backgroundColor: '#FFFFFF'}}>
@@ -66,7 +75,7 @@ function CardComp(props) {
 			<Card.Body>
 				<Card.Title style={{color: '#336699'}}>{props.title}</Card.Title>
 				{renderContent()}
-				<Button variant="primary">Go somewhere</Button>
+				<Button variant="primary" onClick={() => props.onClick()}>View Room</Button>
 			</Card.Body>
 		</Card>
 	);
