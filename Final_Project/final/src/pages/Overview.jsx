@@ -10,7 +10,7 @@ import LineChart from '../components/LineChart';
 
 Chart.register(CategoryScale);
 
-function Overview() {
+function Overview(props) {
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
 
@@ -31,6 +31,7 @@ function Overview() {
 
 	const handleCardClick = () => {
 		setCardOverviewVisible(!cardOverviewVisible);
+		props.setSearchVisible(!cardOverviewVisible);
 		setRoomViewVisible(!roomViewVisible);
 	};
 
@@ -87,7 +88,7 @@ function Overview() {
 					{/* Room To-Do Section */}
 					<div className="room-todo-section justify-content-center" style={{textAlign: 'center'}}>
 						<h2 style={{textAlign: "center"}}>Room To-Do</h2>
-						<div className="d-flex justify-content-center" style={{textAlign:"start"}}>
+						<div className="d-flex justify-content-center" style={{textAlign: "start"}}>
 							<ul>
 								<li>Administer medication at 3pm</li>
 								<li>Feed lunch</li>
