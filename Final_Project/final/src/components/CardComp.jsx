@@ -34,28 +34,28 @@ function CardComp(props) {
 				return (
 					<>
 						<Card.Text>
-							Temperature: {props.temp}°
+							Temperature: {props.room.climate?.current_temp_f}°
 						</Card.Text>
 						<Card.Text>
-							Humidity: {props.humidity}%
+							Humidity: {props.room.climate?.current_humidity}%
 						</Card.Text>
 					</>
 				);
 			case '#todo-list':
-				return (
-					<>
-						<Card.Text><strong>9am</strong>: Administer Morning Medication</Card.Text>
-						<Card.Text><strong>11am</strong>: Lunch Time</Card.Text>
-						<Card.Text><strong>4pm</strong>: Administer Afternoon Medication</Card.Text>
-						<Card.Text><strong>7pm</strong>: Dinner Time</Card.Text>
-					</>
-				);
+				return props.patient.calendar?.events.map((event, index) => {
+					const [time, task] = event.split(':');
+					return (
+						<Card.Text key={index}>
+							<strong>{time}</strong>: {task}
+						</Card.Text>
+					);
+				});
 			case '#patient-info':
 				return (
 					<>
-						<Card.Text><strong>Name</strong>: Dr. Doofenshmurtzs</Card.Text>
-						<Card.Text><strong>DOB</strong>: 04/20/1992</Card.Text>
-						<Card.Text><strong>Description</strong>: In the land of poets and thinkers, where the Brothers Grimm spun their tales, find me where the Rhine River winds and the cuckoo's song prevails. Where am I, born of ancient lore, where pretzels twist and legends soar?</Card.Text>
+						<Card.Text><strong>Name</strong>: {props.patient?.name}</Card.Text>
+						<Card.Text><strong>Age</strong>: {props.patient?.age}</Card.Text>
+						<Card.Text><strong>Description</strong>: {props.patient?.information}</Card.Text>
 					</>
 				);
 			default:
@@ -73,9 +73,9 @@ function CardComp(props) {
 		<Card style={{width: '25rem', margin: '15px', backgroundColor: '#FFFFFF'}}>
 			{cardHead}
 			<Card.Body>
-				<Card.Title style={{color: '#336699'}}>{props.title}</Card.Title>
+				<Card.Title style={{color: '#336699'}}>Room {props.room.room_num}</Card.Title>
 				{renderContent()}
-				<Button variant="primary" onClick={() => props.onClick()}>View Room</Button>
+				<Button variant="primary" onClick={() => props.onClick(props.room.id)}>View Room</Button>
 			</Card.Body>
 		</Card>
 	);

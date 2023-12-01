@@ -4,10 +4,45 @@ import '../styling/dashboard.scss'
 import {useState} from 'react';
 import 'reactjs-popup/dist/index.css';
 import {Alert, Modal, Pressable, StyleSheet, Text, TextInput, View} from 'react-native';
+import {createPatient} from '../services/api';
 
 
 function ModalComp(props) {
-	const [text, onChangeText] = useState('First Name');
+	const [patientName, setPatientName] = useState('');
+	const [patientAge, setPatientAge] = useState('');
+	const [patientInformation, setPatientInformation] = useState('');
+	const [tasks, setTasks] = useState('');
+
+	const handleSave = async () => {
+		const formattedData = {
+			name: patientName,
+			age: parseInt(patientAge),
+			information: patientInformation,
+			calendar: {
+				events: tasks
+					.split('\n')
+					.map((task) => task.trim())
+					.filter((task) => task !== '')
+					.map((task) => {
+						const formattedTask = task.startsWith('*') ? task.slice(1) : task;
+						const [time, taskText] = formattedTask.split(':');
+						return `${time}:${taskText.trim()}`;
+					}),
+			},
+		};
+
+		console.log('Formatted Data:', formattedData);
+
+		try {
+			const createdPatient = await createPatient(formattedData);
+			console.log('Created Patient:', createdPatient);
+			props.updateRoomsAndPatients();
+		} catch (error) {
+			console.error('Error creating patient:', error.message);
+		}
+
+		props.setModalVisible(!props.modalVisible);
+	};
 
 	return (
 		<View style={styles.centeredView}>
@@ -23,29 +58,30 @@ function ModalComp(props) {
 				<View style={styles.centeredView}>
 					<View style={styles.modalView}>
 						<View style={styles.row}>
-							<Text style={styles.label}>Room Name:</Text>
+							<Text style={styles.label}>Full Name:</Text>
 							<TextInput
 								style={styles.input}
-								onChangeText={(text) => onChangeText(text, 'roomName')}
-								placeholder="Enter room name"
+								onChangeText={(text) => setPatientName(text)}
+								placeholder="Patient Name"
 							/>
 						</View>
 
 						<View style={styles.row}>
-							<Text style={styles.label}>Ideal Temp:</Text>
+							<Text style={styles.label}>Age:</Text>
 							<TextInput
 								style={styles.input}
-								onChangeText={(text) => onChangeText(text, 'idealTemp')}
-								placeholder="Enter ideal temperature"
+								onChangeText={(text) => setPatientAge(text)}
+								placeholder="Patient Age"
 							/>
 						</View>
 
 						<View style={styles.row}>
-							<Text style={styles.label}>Ideal Humidity:</Text>
+							<Text style={styles.label}>Information:</Text>
 							<TextInput
-								style={styles.input}
-								onChangeText={(text) => onChangeText(text, 'idealHumidity')}
-								placeholder="Enter ideal humidity"
+								style={[styles.input, styles.multilineInput]}
+								onChangeText={(text) => setPatientInformation(text)}
+								placeholder="Patient Information"
+								multiline
 							/>
 						</View>
 
@@ -53,15 +89,15 @@ function ModalComp(props) {
 							<Text style={styles.label}>Tasks:</Text>
 							<TextInput
 								style={[styles.input, styles.multilineInput]}
-								onChangeText={(text) => onChangeText(text, 'tasks')}
-								placeholder="Enter tasks"
+								onChangeText={(text) => setTasks(text)}
+								placeholder="Enter Tasks: Eg. * 8am: Breakfast"
 								multiline
 							/>
 						</View>
 						<Pressable
 							style={[styles.button, styles.buttonClose]}
-							onPress={() => props.setModalVisible(!props.modalVisible)}>
-							<Text style={styles.textStyle}>Hide Modal</Text>
+							onPress={handleSave}>
+							<Text style={styles.textStyle}>Save and Hide Modal</Text>
 						</Pressable>
 					</View>
 				</View>
