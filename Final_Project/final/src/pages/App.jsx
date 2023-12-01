@@ -30,7 +30,7 @@ function App() {
 	return (
 		<div className="App app-container" style={{background: '#336699'}}>
 			<Header searchVisible={searchVisible} addRoomOnClick={addRoomOnClick}/>
-			<div className="container-fluid" style={{height: '100vh'}}>
+			<div className="container-fluid" style={{height: 'fit-content', paddingBottom:"50px", minHeight: '100vh'}}>
 				<main className="col-md-8 col-lg-12 px-md-5">
 					<ModalComp modalVisible={modalVisible} setModalVisible={setModalVisible}/>
 					<Overview setSearchVisible={setSearchVisible}/>

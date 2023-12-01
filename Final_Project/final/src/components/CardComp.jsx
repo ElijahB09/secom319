@@ -42,7 +42,7 @@ function CardComp(props) {
 					</>
 				);
 			case '#todo-list':
-				return props.patient?.calendar.events.map((event, index) => {
+				return props.patient.calendar?.events.map((event, index) => {
 					const [time, task] = event.split(':');
 					return (
 						<Card.Text key={index}>

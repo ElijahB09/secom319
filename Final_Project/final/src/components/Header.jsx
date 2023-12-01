@@ -11,7 +11,7 @@ function Header(props) {
 			<Navbar.Brand id="title">M-C Brady Tech</Navbar.Brand>
 			<Nav className="mr-auto">
 				<Nav.Link id="nav-dashboard" href=".">Dashboard</Nav.Link>
-				<Button style={{marginLeft:'35px'}} onClick={() => props.addRoomOnClick()}>Add Room</Button>
+				<Button style={{marginLeft:'35px'}} onClick={() => props.addRoomOnClick()}>Add Patient</Button>
 			</Nav>
 			{/*{props.searchVisible && (*/}
 			{/*	<Form id="nav-form" style={{width: "65%"}}>*/}

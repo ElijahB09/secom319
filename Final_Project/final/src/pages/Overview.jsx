@@ -12,19 +12,31 @@ import {fetchPatients, fetchRooms} from '../services/api';
 
 Chart.register(CategoryScale);
 
+const placeHolder_TempData = [
+	68,
+	70,
+	71
+];
+
+const placeHolder_HumidData = [
+	35,
+	40,
+	41
+];
+
 function Overview(props) {
 	const [roomId, setRoomId] = useState();
+	const [room, setRoom] = useState();
 	const [roomData, setRoomData] = useState([]);
 	const [patientData, setPatientData] = useState([]);
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
-	const [tempChartData, setTempChartData] = useState(
-		{
-			labels: Data.map((data) => data.year),
+	const [tempChartData, setTempChartData] = useState({
+			labels: placeHolder_TempData.map((data, index) => index),
 			datasets: [
 				{
 					label: "Users Gained ",
-					data: Data.map((data) => data.userGain),
+					data: placeHolder_TempData.map((data) => data),
 					backgroundColor: [
 						"#66CCFF"
 					],
@@ -35,14 +47,12 @@ function Overview(props) {
 		}
 	);
 	const [humidityChartData, setHumidityChartData] = useState({
-		labels: Data.map((data) => data.year),
+		labels: placeHolder_HumidData.map((data, index) => index),
 		datasets: [
 			{
 				label: "Users Gained ",
-				data: Data.map((data) => data.userGain),
-				backgroundColor: [
-					"#66CCFF"
-				],
+				data: placeHolder_HumidData.map((data) => data),
+				backgroundColor: ["#66CCFF"],
 				borderColor: "#4CAF50",
 				borderWidth: 2
 			}
@@ -67,16 +77,21 @@ function Overview(props) {
 		});
 	}, []);
 
+	console.log(roomData);
+	console.log(patientData);
+
 	// console.log(roomData);
 	// console.log(patientData);
 
 	const handleCardClick = (roomId) => {
+		console.log(roomId);
+		setRoomId(roomId);
 		setCardOverviewVisible(!cardOverviewVisible);
 		props.setSearchVisible(!cardOverviewVisible);
 		setRoomViewVisible(!roomViewVisible);
-		setRoomId(roomId);
-		setTempChartData({
-			labels: roomData[roomId].climate?.past_temps_f.map((data, index) => index),
+		setRoom(roomData.find((room) => (room.id === roomId)));
+		room && setTempChartData({
+			labels: room.climate?.past_temps_f.map((data, index) => index),
 			datasets: [
 				{
 					label: "Users Gained ",
@@ -89,8 +104,8 @@ function Overview(props) {
 				}
 			]
 		});
-		setHumidityChartData({
-			labels: roomData[roomId].climate?.past_humidities.map((data, index) => index),
+		room && setHumidityChartData({
+			labels: room.climate?.past_humidities.map((data, index) => index),
 			datasets: [
 				{
 					label: "Users Gained ",
@@ -138,7 +153,8 @@ function Overview(props) {
 			)}
 			{roomViewVisible && (
 				<div id="card-view">
-					<h1>ROOM 1</h1>
+					<h1>Room: {room.room_num}</h1>
+					<h2>Patient: {patientData.find((patient) => patient.id === room.patient).name}</h2>
 					<div className="row">
 						<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
 						<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
@@ -160,7 +176,7 @@ function Overview(props) {
 
 					{/* Room To-Do Section */}
 					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
-						<ToDoCard events={patientData.find((patient) => patient.id === roomData[roomId].patient).calendar.events}/>
+						<ToDoCard events={patientData.find((patient) => patient.id === room.patient).calendar?.events}/>
 					</div>
 				</div>
 			)}

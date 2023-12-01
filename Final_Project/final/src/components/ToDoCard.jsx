@@ -19,7 +19,7 @@ function ToDoCard(props) {
 						<Card.Text>
 							<div className="d-flex justify-content-center" style={{textAlign: "start"}}>
 								<ul>
-									{props.events.map((event, index) => {
+									{props.events?.map((event, index) => {
 										const [time, task] = event.split(':');
 										return (
 											<li key={index}>
