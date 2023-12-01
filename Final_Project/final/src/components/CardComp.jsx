@@ -34,10 +34,10 @@ function CardComp(props) {
 				return (
 					<>
 						<Card.Text>
-							Temperature: {props.temp}°
+							Temperature: {props.room.climate.current_temp_f}°
 						</Card.Text>
 						<Card.Text>
-							Humidity: {props.humidity}%
+							Humidity: {props.room.climate.current_humidity}%
 						</Card.Text>
 					</>
 				);
@@ -73,7 +73,7 @@ function CardComp(props) {
 		<Card style={{width: '25rem', margin: '15px', backgroundColor: '#FFFFFF'}}>
 			{cardHead}
 			<Card.Body>
-				<Card.Title style={{color: '#336699'}}>{props.title}</Card.Title>
+				<Card.Title style={{color: '#336699'}}>Room {props.room.room_num}</Card.Title>
 				{renderContent()}
 				<Button variant="primary" onClick={() => props.onClick()}>View Room</Button>
 			</Card.Body>

@@ -11,6 +11,51 @@ import ToDoCard from '../components/ToDoCard';
 
 Chart.register(CategoryScale);
 
+const room_data = [
+	{
+		"id": 1,
+		"created_at": "2023-11-27T16:06:30.08255+00:00",
+		"climate": {
+			"past_temps_c": {},
+			"past_temps_f": {},
+			"current_temp_c": 26,
+			"current_temp_f": 65,
+			"past_humidities": {},
+			"current_humidity": 35
+		},
+		"room_num": 1,
+		"patient": 1
+	},
+	{
+		"id": 2,
+		"created_at": "2023-11-27T17:06:30.08255+00:00",
+		"climate": {
+			"past_temps_c": {},
+			"past_temps_f": {},
+			"current_temp_c": 26,
+			"current_temp_f": 70,
+			"past_humidities": {},
+			"current_humidity": 40
+		},
+		"room_num": 2,
+		"patient": 2
+	},
+	{
+		"id": 3,
+		"created_at": "2023-11-27T18:06:30.08255+00:00",
+		"climate": {
+			"past_temps_c": {},
+			"past_temps_f": {},
+			"current_temp_c": 26,
+			"current_temp_f": 75,
+			"past_humidities": {},
+			"current_humidity": 45
+		},
+		"room_num": 3,
+		"patient": 3
+	}
+];
+
 function Overview(props) {
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
@@ -36,31 +81,33 @@ function Overview(props) {
 		setRoomViewVisible(!roomViewVisible);
 	};
 
+	const renderCards = () => {
+		const cardsPerRow = 3;
+		const rows = [];
+
+		for (let i = 0; i < room_data.length; i += cardsPerRow) {
+			const rowCards = room_data.slice(i, i + cardsPerRow);
+
+			const row = (
+				<div className="row justify-content-center" key={i / cardsPerRow}>
+					{rowCards.map((room, index) => (
+						<div className="col-md-4" key={index}>
+							<CardComp room={room} onClick={handleCardClick}/>
+						</div>
+					))}
+				</div>
+			);
+			rows.push(row);
+		}
+		return rows;
+	}
+
 	return (
 		<>
 			{cardOverviewVisible && (
 				<div id="card-overview" className="container-fluid">
 					<div className="row justify-content-center">
-						<div className="col-md-4">
-							<CardComp title={'Room 1'} temp={'72'} humidity={'35'} onClick={handleCardClick}/>
-						</div>
-						<div className="col-md-4">
-							<CardComp title={'Room 2'} temp={'68'} humidity={'38'} onClick={handleCardClick}/>
-						</div>
-						<div className="col-md-4">
-							<CardComp title={'Room 3'} temp={'71'} humidity={'36'} onClick={handleCardClick}/>
-						</div>
-					</div>
-					<div className="row justify-content-center">
-						<div className="col-md-4">
-							<CardComp title={'Room 1'} temp={'72'} humidity={'35'} onClick={handleCardClick}/>
-						</div>
-						<div className="col-md-4">
-							<CardComp title={'Room 2'} temp={'68'} humidity={'38'} onClick={handleCardClick}/>
-						</div>
-						<div className="col-md-4">
-							<CardComp title={'Room 3'} temp={'71'} humidity={'36'} onClick={handleCardClick}/>
-						</div>
+						{renderCards()}
 					</div>
 				</div>
 			)}
