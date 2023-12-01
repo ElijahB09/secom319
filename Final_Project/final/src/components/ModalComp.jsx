@@ -24,7 +24,8 @@ function ModalComp(props) {
 					.map((task) => task.trim())
 					.filter((task) => task !== '')
 					.map((task) => {
-						const [time, taskText] = task.split(':');
+						const formattedTask = task.startsWith('*') ? task.slice(1) : task;
+						const [time, taskText] = formattedTask.split(':');
 						return `${time}:${taskText.trim()}`;
 					}),
 			},
@@ -35,6 +36,7 @@ function ModalComp(props) {
 		try {
 			const createdPatient = await createPatient(formattedData);
 			console.log('Created Patient:', createdPatient);
+			props.updateRoomsAndPatients();
 		} catch (error) {
 			console.error('Error creating patient:', error.message);
 		}

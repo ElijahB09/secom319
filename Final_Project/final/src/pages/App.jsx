@@ -23,7 +23,6 @@ function App() {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const addRoomOnClick = () => {
-		console.log("hello");
 		setModalVisible(true);
 	};
 
@@ -32,8 +31,7 @@ function App() {
 			<Header searchVisible={searchVisible} addRoomOnClick={addRoomOnClick}/>
 			<div className="container-fluid" style={{height: 'fit-content', paddingBottom:"50px", minHeight: '100vh'}}>
 				<main className="col-md-8 col-lg-12 px-md-5">
-					<ModalComp modalVisible={modalVisible} setModalVisible={setModalVisible}/>
-					<Overview setSearchVisible={setSearchVisible}/>
+					<Overview setSearchVisible={setSearchVisible} modalVisible={modalVisible} setModalVisible={setModalVisible}/>
 				</main>
 			</div>
 		</div>

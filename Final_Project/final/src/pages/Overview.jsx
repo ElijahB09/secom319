@@ -9,6 +9,7 @@ import {Data} from '../utils/Data';
 import LineChart from '../components/LineChart';
 import ToDoCard from '../components/ToDoCard';
 import {fetchPatients, fetchRooms} from '../services/api';
+import ModalComp from '../components/ModalComp';
 
 Chart.register(CategoryScale);
 
@@ -76,6 +77,18 @@ function Overview(props) {
 			console.log(patientData);
 		});
 	}, []);
+
+	const updateRoomsAndPatients = async () => {
+		try {
+			const roomsData = await fetchRooms();
+			const patientsData = await fetchPatients();
+			setRoomData(roomsData);
+			setPatientData(patientsData);
+		} catch (error) {
+			console.log("Error updating rooms and patients:", error);
+		}
+	};
+
 
 	console.log(roomData);
 	console.log(patientData);
@@ -180,6 +193,7 @@ function Overview(props) {
 					</div>
 				</div>
 			)}
+			<ModalComp modalVisible={props.modalVisible} setModalVisible={props.setModalVisible} updateRoomsAndPatients={updateRoomsAndPatients}/>
 		</>
 	);
 }
