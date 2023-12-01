@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.get("/rooms", async (req, res) => {
     const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
-    const { data, error } = await supabase.from("room").select();
+    const { data, error } = await supabase.from("room").select().not("patient", "is", null);
     console.log(data);
     if (error) {
         res.status(error.code);
