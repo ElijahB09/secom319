@@ -7,6 +7,7 @@ import Chart from "chart.js/auto";
 import {CategoryScale} from "chart.js";
 import {Data} from '../utils/Data';
 import LineChart from '../components/LineChart';
+import ToDoCard from '../components/ToDoCard';
 
 Chart.register(CategoryScale);
 
@@ -86,14 +87,8 @@ function Overview(props) {
 					</div>
 
 					{/* Room To-Do Section */}
-					<div className="room-todo-section justify-content-center" style={{textAlign: 'center'}}>
-						<h2 style={{textAlign: "center"}}>Room To-Do</h2>
-						<div className="d-flex justify-content-center" style={{textAlign: "start"}}>
-							<ul>
-								<li>Administer medication at 3pm</li>
-								<li>Feed lunch</li>
-							</ul>
-						</div>
+					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
+						<ToDoCard/>
 					</div>
 				</div>
 			)}
