@@ -75,7 +75,7 @@ function CardComp(props) {
 			<Card.Body>
 				<Card.Title style={{color: '#336699'}}>Room {props.room.room_num}</Card.Title>
 				{renderContent()}
-				<Button variant="primary" onClick={() => props.onClick()}>View Room</Button>
+				<Button variant="primary" onClick={() => props.onClick(props.room.id)}>View Room</Button>
 			</Card.Body>
 		</Card>
 	);

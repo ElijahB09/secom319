@@ -1,6 +1,6 @@
 import Card from 'react-bootstrap/Card';
 
-function ToDoCard() {
+function ToDoCard(props) {
 	return (
 		<>
 			{[
@@ -15,12 +15,18 @@ function ToDoCard() {
 					style={{marginTop: '50px', width: 'fit-content', boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)'}}
 				>
 					<Card.Body>
-						<Card.Title>{variant} Room To Do </Card.Title>
+						<Card.Title>Room Tasks</Card.Title>
 						<Card.Text>
 							<div className="d-flex justify-content-center" style={{textAlign: "start"}}>
 								<ul>
-									<li>Administer medication at 3pm</li>
-									<li>Feed lunch</li>
+									{props.events.map((event, index) => {
+										const [time, task] = event.split(':');
+										return (
+											<li key={index}>
+												<strong>{time}</strong>: {task}
+											</li>
+										);
+									})}
 								</ul>
 							</div>
 						</Card.Text>

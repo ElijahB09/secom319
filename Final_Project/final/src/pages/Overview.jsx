@@ -13,10 +13,41 @@ import {fetchPatients, fetchRooms} from '../services/api';
 Chart.register(CategoryScale);
 
 function Overview(props) {
+	const [roomId, setRoomId] = useState();
 	const [roomData, setRoomData] = useState([]);
 	const [patientData, setPatientData] = useState([]);
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
+	const [tempChartData, setTempChartData] = useState(
+		{
+			labels: Data.map((data) => data.year),
+			datasets: [
+				{
+					label: "Users Gained ",
+					data: Data.map((data) => data.userGain),
+					backgroundColor: [
+						"#66CCFF"
+					],
+					borderColor: "#4CAF50",
+					borderWidth: 2
+				}
+			]
+		}
+	);
+	const [humidityChartData, setHumidityChartData] = useState({
+		labels: Data.map((data) => data.year),
+		datasets: [
+			{
+				label: "Users Gained ",
+				data: Data.map((data) => data.userGain),
+				backgroundColor: [
+					"#66CCFF"
+				],
+				borderColor: "#4CAF50",
+				borderWidth: 2
+			}
+		]
+	});
 
 	useEffect(() => {
 		const fetchDataFromApi = async () => {
@@ -36,28 +67,40 @@ function Overview(props) {
 		});
 	}, []);
 
-	console.log(roomData);
-	console.log(patientData);
+	// console.log(roomData);
+	// console.log(patientData);
 
-	const [chartData, setChartData] = useState({
-		labels: Data.map((data) => data.year),
-		datasets: [
-			{
-				label: "Users Gained ",
-				data: Data.map((data) => data.userGain),
-				backgroundColor: [
-					"#66CCFF"
-				],
-				borderColor: "#4CAF50",
-				borderWidth: 2
-			}
-		]
-	});
-
-	const handleCardClick = () => {
+	const handleCardClick = (roomId) => {
 		setCardOverviewVisible(!cardOverviewVisible);
 		props.setSearchVisible(!cardOverviewVisible);
 		setRoomViewVisible(!roomViewVisible);
+		setRoomId(roomId);
+		setTempChartData({
+			labels: roomData[roomId].climate?.past_temps_f.map((data, index) => index),
+			datasets: [
+				{
+					label: "Users Gained ",
+					data: roomData[roomId].climate?.past_temps_f.map((data) => data),
+					backgroundColor: [
+						"#66CCFF"
+					],
+					borderColor: "#4CAF50",
+					borderWidth: 2
+				}
+			]
+		});
+		setHumidityChartData({
+			labels: roomData[roomId].climate?.past_humidities.map((data, index) => index),
+			datasets: [
+				{
+					label: "Users Gained ",
+					data: roomData[roomId].climate?.past_humidities.map((data) => data),
+					backgroundColor: ["#66CCFF"],
+					borderColor: "#4CAF50",
+					borderWidth: 2
+				}
+			]
+		});
 	};
 
 	const renderCards = () => {
@@ -97,8 +140,8 @@ function Overview(props) {
 				<div id="card-view">
 					<h1>ROOM 1</h1>
 					<div className="row">
-						<LineChart chartData={chartData} title={"Temperature Recording"}/>
-						<LineChart chartData={chartData} title={"Humidity Recording"}/>
+						<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
+						<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
 					</div>
 					<div className="row">
 						<div className="col-md-6">
@@ -117,7 +160,7 @@ function Overview(props) {
 
 					{/* Room To-Do Section */}
 					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
-						<ToDoCard/>
+						<ToDoCard events={patientData.find((patient) => patient.id === roomData[roomId].patient).calendar.events}/>
 					</div>
 				</div>
 			)}

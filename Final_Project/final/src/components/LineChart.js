@@ -9,11 +9,6 @@ function LineChart(props) {
 				data={props.chartData}
 				options={{
 					plugins: {
-						title: {
-							display: true,
-							text: "Users Gained between 2016-2020",
-							color: "#333333"
-						},
 						legend: {
 							display: false
 						}
@@ -21,7 +16,7 @@ function LineChart(props) {
 					scales: {
 						x: {
 							ticks: {
-								color: "#333333", // X-axis number color
+								display: false,
 							},
 							grid: {
 								color: "#CCCCCC", // X-axis grid line color
