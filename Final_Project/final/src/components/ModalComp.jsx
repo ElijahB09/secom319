@@ -12,6 +12,8 @@ function ModalComp(props) {
 	const [patientAge, setPatientAge] = useState('');
 	const [patientInformation, setPatientInformation] = useState('');
 	const [tasks, setTasks] = useState('');
+	const [idealTemp, setIdealTemp] = useState('');
+	const [idealHumidity, setIdealHumidity] = useState('');
 
 	const handleSave = async () => {
 		const formattedData = {
@@ -29,6 +31,8 @@ function ModalComp(props) {
 						return `${time}:${taskText.trim()}`;
 					}),
 			},
+			ideal_temp: idealTemp,
+			ideal_humidity: idealHumidity
 		};
 
 		console.log('Formatted Data:', formattedData);
@@ -72,6 +76,24 @@ function ModalComp(props) {
 								style={styles.input}
 								onChangeText={(text) => setPatientAge(text)}
 								placeholder="Patient Age"
+							/>
+						</View>
+
+						<View style={styles.row}>
+							<Text style={styles.label}>Ideal Temp:</Text>
+							<TextInput
+								style={styles.input}
+								onChangeText={(text) => setIdealTemp(text)}
+								placeholder="Set Patient's Ideal Temperature"
+							/>
+						</View>
+
+						<View style={styles.row}>
+							<Text style={styles.label}>Ideal Humidity:</Text>
+							<TextInput
+								style={styles.input}
+								onChangeText={(text) => setIdealHumidity(text)}
+								placeholder="Set Patient's Ideal Humidity"
 							/>
 						</View>
 

@@ -175,14 +175,14 @@ function Overview(props) {
 					<div className="row">
 						<div className="col-md-6">
 							<div className="temperature-info">
-								<p>Current Temperature: 68°F</p>
-								<p>Average Deviation: 3°F</p>
+								<p><strong>Current Temperature:</strong> {room.climate.current_temp_f}°F</p>
+								<p><strong>Ideal Temperature:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_temp}°F</p>
 							</div>
 						</div>
 						<div className="col-md-6">
 							<div className="humidity-info">
-								<p>Current Humidity: 20%</p>
-								<p>Average Deviation: 2%</p>
+								<p><strong>Current Humidity:</strong> {room.climate.current_humidity}%</p>
+								<p><strong>Ideal Humidity:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_humidity}%</p>
 							</div>
 						</div>
 					</div>
