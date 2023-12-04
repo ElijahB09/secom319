@@ -48,6 +48,10 @@ function ModalComp(props) {
 		props.setModalVisible(!props.modalVisible);
 	};
 
+	const handleReturn = async () => {
+		props.setModalVisible(!props.modalVisible);
+	}
+
 	return (
 		<View style={styles.centeredView}>
 			<Modal
@@ -120,6 +124,11 @@ function ModalComp(props) {
 							style={[styles.button, styles.buttonClose]}
 							onPress={handleSave}>
 							<Text style={styles.textStyle}>Save and Hide Modal</Text>
+						</Pressable>
+						<Pressable
+							style={[styles.button, styles.buttonClose]}
+							onPress={handleReturn}>
+							<Text style={styles.textStyle}>Return</Text>
 						</Pressable>
 					</View>
 				</View>
