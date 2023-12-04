@@ -126,9 +126,9 @@ function ModalComp(props) {
 							<Text style={styles.textStyle}>Save and Hide Modal</Text>
 						</Pressable>
 						<Pressable
-							style={[styles.button, styles.buttonClose]}
+							style={[styles.button, styles.buttonClose, styles.buttonCancel]}
 							onPress={handleReturn}>
-							<Text style={styles.textStyle}>Return</Text>
+							<Text style={styles.textStyle}>Cancel</Text>
 						</Pressable>
 					</View>
 				</View>
@@ -192,6 +192,10 @@ const styles = StyleSheet.create({
 	},
 	buttonClose: {
 		backgroundColor: '#2196F3',
+	},
+	buttonCancel: {
+		backgroundColor: '#FF0000',
+		marginTop:'20px'
 	},
 	textStyle: {
 		color: 'white',
