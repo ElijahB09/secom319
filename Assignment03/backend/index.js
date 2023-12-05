@@ -34,3 +34,33 @@ app.get("/products", async (req, res) => {
 	res.send(results);
 });
 
+app.post("/products", async (req, res) => {
+	await client.connect();
+	console.log("Node connected successfully to GET MongoDB");
+	const results = await db
+		.collection(collectionName)
+		.insertOne(req.body);
+	console.log(results);
+	res.status(200);
+	res.send(results);
+});
+
+app.delete("/products/:id", async (req, res) => {
+	await client.connect();
+	const query = { id: Number(req.params.id) };
+	const results = await db
+		.collection(collectionName)
+		.deleteOne(query);
+	res.status(200);
+	res.send(results);
+});
+
+app.put("/products/:id", async (req, res) => {
+	await client.connect();
+	const query = { id: Number(req.params.id) };
+	const results = await db
+		.collection(collectionName)
+		.updateOne(query, {$set: {price: Number(req.body.price)}});
+	res.status(200);
+	res.send(results);
+});
