@@ -1,0 +1,42 @@
+.custom-section {
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+.invalid-text {
+    color: red;
+}
+
+.item-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.item-title {
+    flex: 2;
+    text-align: left;
+    margin-right: 10px; /* Add some margin for spacing */
+}
+
+.item-quantity {
+    flex: 1;
+    text-align: center;
+}
+
+.item-price {
+    flex: 1;
+    text-align: right;
+}
+
+.needs-validation {
+    margin-left: 1.5%;
+}
+
+h4 {
+    padding-top: 1%;
+}
+
+.submit-button {
+    padding-top: 1%;
+}
