@@ -35,6 +35,27 @@ export const createProduct = async (productData) => {
 	}
 };
 
+export const deleteProduct = async (productId) => {
+	try {
+		const response = await fetch(`http://localhost:8081/products/${productId}`, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to delete product');
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error deleting product:', error.message);
+		throw error;
+	}
+};
+
 // export const fetchPatients = async () => {
 // 	try {
 // 		const response = await fetch('http://localhost:8081/patients');

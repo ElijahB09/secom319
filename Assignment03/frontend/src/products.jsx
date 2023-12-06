@@ -5,9 +5,9 @@ import {Col, Modal, Row} from 'react-bootstrap';
 import {formatter, productsInCart} from './shop';
 import './products.css';
 import AddProductForm from './AddProductForm';
-import {createProduct} from './services/api';
+import {createProduct, deleteProduct} from './services/api';
 
-const render_card = (product, productCounts, addProductToCart) => {
+const render_card = (product, productCounts, addProductToCart, handleDeleteProduct) => {
 	const count = productCounts[product.id] || 0;
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
@@ -21,24 +21,27 @@ const render_card = (product, productCounts, addProductToCart) => {
 				<div>
 					<h4 id="product3-price" className="price">{formatter.format(product.price)}</h4>
 				</div>
-				<div className="input-group input-group-sm">
-					<div className="input-group-prepend">
-						<Button onClick={() => addProductToCart(product, true)} className="btn"
-								variant="primary">+</Button>
-					</div>
-					<input id={`product-num-${product.id}`} type="text" className="form-control input-sm"
-						   value={count}/>
-					<div className="input-group-append">
-						<Button onClick={() => addProductToCart(product, false)} className="btn"
-								variant="primary">-</Button>
-					</div>
-				</div>
+				{/*<div className="input-group input-group-sm">*/}
+				{/*	<div className="input-group-prepend">*/}
+				{/*		<Button onClick={() => addProductToCart(product, true)} className="btn"*/}
+				{/*				variant="primary">+</Button>*/}
+				{/*	</div>*/}
+				{/*	<input id={`product-num-${product.id}`} type="text" className="form-control input-sm"*/}
+				{/*		   value={count}/>*/}
+				{/*	<div className="input-group-append">*/}
+				{/*		<Button onClick={() => addProductToCart(product, false)} className="btn"*/}
+				{/*				variant="primary">-</Button>*/}
+				{/*	</div>*/}
+				{/*</div>*/}
+				<Button variant="danger" onClick={() => handleDeleteProduct(product.id)} className="mt-2">
+					Delete
+				</Button>
 			</Card.Body>
 		</Card>
 	);
 }
 
-export const renderProducts = (products, productCounts, addProductToCart) => {
+export const renderProducts = (products, productCounts, addProductToCart, handleDeleteProduct) => {
 	return <div className='category-section fixed'>
 		<div className="m-6 p-3 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
 			 style={{
@@ -48,7 +51,7 @@ export const renderProducts = (products, productCounts, addProductToCart) => {
 				{products.map((product) => (
 					<div key={product.id}>
 						<Col>
-							{render_card(product, productCounts, addProductToCart)}
+							{render_card(product, productCounts, addProductToCart, handleDeleteProduct)}
 						</Col>
 					</div>
 				))}
@@ -101,7 +104,7 @@ export const RenderProductPage = (products) => {
 
 	const handleAddProduct = async (newProduct) => {
 		const formattedData = {
-			id: newProduct.id,
+			id: parseInt(newProduct.id),
 			title: newProduct.title,
 			price: newProduct.price,
 			description: newProduct.description,
@@ -118,8 +121,14 @@ export const RenderProductPage = (products) => {
 
 		window.location.reload();
 
-		// Add your logic to update the product list or perform any necessary actions
 		setPostProduct(false);
+	};
+
+	const handleDeleteProduct = async (productId) => {
+
+		const deletedProduct = await deleteProduct(productId);
+
+		window.location.reload();
 	};
 
 	console.log(showPostProduct);
@@ -156,7 +165,7 @@ export const RenderProductPage = (products) => {
 
 		<div id='product-catalog' className="flex fixed flex-row">
 			<div className="ml-5 p-10 xl:basis-4/5">
-				{renderProducts(filteredProducts, productCounts, addProductToCart)}
+				{renderProducts(filteredProducts, productCounts, addProductToCart, handleDeleteProduct)}
 			</div>
 		</div>
 		{showPostProduct && (
