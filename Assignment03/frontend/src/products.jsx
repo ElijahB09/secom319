@@ -1,13 +1,13 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import React, {useState} from 'react';
-import {Col, Row} from 'react-bootstrap';
-import {formatter, processCart, productsInCart} from './shop';
+import {Col, Modal, Row} from 'react-bootstrap';
+import {formatter, productsInCart} from './shop';
 import './products.css';
+import AddProductForm from './AddProductForm';
+import {createProduct} from './services/api';
 
 const render_card = (product, productCounts, addProductToCart) => {
-
-
 	const count = productCounts[product.id] || 0;
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
@@ -59,37 +59,35 @@ export const renderProducts = (products, productCounts, addProductToCart) => {
 
 export const RenderProductPage = (products) => {
 
-	const [cartCount, setCartCount] = useState(0);
 	const [productCounts, setProductCounts] = useState({});
 	const [searchQuery, setSearchQuery] = useState('');
+	const [showPostProduct, setPostProduct] = useState(false);
 
 	const addProductToCart = (product, isAdd) => {
 		const currentCount = productCounts[product.id] || 0;
 		if (isAdd) {
-			setCartCount(cartCount + 1);
 			setProductCounts({
 				...productCounts,
 				[product.id]: currentCount + 1,
 			});
-			if(productsInCart.indexOf(product) === -1) {
+			if (productsInCart.indexOf(product) === -1) {
 				product['quantity'] = 1;
 				productsInCart.push(product);
 
 			} else {
 				const item = productsInCart.find((item) => product.id === item.id);
-				item['quantity'] = item.quantity+1;
+				item['quantity'] = item.quantity + 1;
 			}
 
 		} else {
 			const index = productsInCart.indexOf(product);
 			if (index !== -1) {
-				setCartCount(cartCount - 1);
 				setProductCounts({
 					...productCounts,
 					[product.id]: currentCount - 1,
 				});
 				product['quantity'] -= 1;
-				if(product.quantity === 0) {
+				if (product.quantity === 0) {
 					productsInCart.splice(index, 1);
 				}
 			}
@@ -100,6 +98,31 @@ export const RenderProductPage = (products) => {
 	const filteredProducts = products.filter((product) =>
 		product.title.toLowerCase().includes(searchQuery.toLowerCase())
 	);
+
+	const handleAddProduct = async (newProduct) => {
+		const formattedData = {
+			id: newProduct.id,
+			title: newProduct.title,
+			price: newProduct.price,
+			description: newProduct.description,
+			category: newProduct.category,
+			image: newProduct.image,
+			rating: {
+				rate: newProduct.rate,
+				count: newProduct.count
+			}
+		}
+
+		const createdProduct = await createProduct(formattedData);
+		console.log('Adding product:', createdProduct);
+
+		window.location.reload();
+
+		// Add your logic to update the product list or perform any necessary actions
+		setPostProduct(false);
+	};
+
+	console.log(showPostProduct);
 
 	return <div className="col-md-11 ms-sm-auto col-lg-12 px-md-4">
 		<div
@@ -119,14 +142,14 @@ export const RenderProductPage = (products) => {
 			<div className="btn-toolbar mb-2 mb-md-0">
 				<button id="cart-button" type="button"
 						className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
-						onClick={processCart}>
+						onClick={() => setPostProduct(!showPostProduct)}>
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-						 className="bi bi-cart" viewBox="0 0 16 16">
+						 className="bi bi-plus-circle" viewBox="0 0 16 16">
+						<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
 						<path
-							d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+							d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
 					</svg>
-					Cart
-					<span id="cart-count"><strong>{cartCount}</strong></span>
+					Add Product
 				</button>
 			</div>
 		</div>
@@ -136,5 +159,18 @@ export const RenderProductPage = (products) => {
 				{renderProducts(filteredProducts, productCounts, addProductToCart)}
 			</div>
 		</div>
+		{showPostProduct && (
+			<Modal show={showPostProduct} onHide={() => setPostProduct(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Add Product</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<AddProductForm
+						onAddProduct={handleAddProduct}
+						onCancel={() => setPostProduct(false)}
+					/>
+				</Modal.Body>
+			</Modal>
+		)}
 	</div>
 }
