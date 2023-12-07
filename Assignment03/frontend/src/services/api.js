@@ -56,6 +56,25 @@ export const deleteProduct = async (productId) => {
 	}
 };
 
+export const updateProduct = async (productId, productData) => {
+	try {
+		const response = await fetch(`http://localhost:8081/products/${productId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(productData),
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to update product price');
+		}
+	} catch (error) {
+		console.error('Error updating product price: ', error.message);
+		throw error;
+	}
+};
+
 // export const fetchPatients = async () => {
 // 	try {
 // 		const response = await fetch('http://localhost:8081/patients');

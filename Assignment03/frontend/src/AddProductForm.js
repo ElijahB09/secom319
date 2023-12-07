@@ -32,6 +32,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product id"
 					name="id"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 			<Form.Group className="mb-3" controlId="formTitle">
@@ -41,6 +42,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product title"
 					name="title"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -51,6 +53,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product price"
 					name="price"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -61,6 +64,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product description"
 					name="description"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -71,6 +75,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product category"
 					name="category"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -81,6 +86,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter image URL"
 					name="image"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -91,6 +97,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product rate"
 					name="rate"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
@@ -101,6 +108,7 @@ const AddProductForm = ({ onAddProduct, onCancel }, props) => {
 					placeholder="Enter product reviews count"
 					name="count"
 					onChange={handleChange}
+					required
 				/>
 			</Form.Group>
 
