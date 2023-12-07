@@ -1,4 +1,5 @@
 import Card from 'react-bootstrap/Card';
+import {Button} from 'react-bootstrap';
 
 function ToDoCard(props) {
 	return (
@@ -30,6 +31,7 @@ function ToDoCard(props) {
 								</ul>
 							</div>
 						</Card.Text>
+						<Button onClick={() => props.setModalVisible(true)}>Add Task</Button>
 					</Card.Body>
 				</Card>
 			))}

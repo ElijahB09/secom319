@@ -9,6 +9,7 @@ import LineChart from '../components/LineChart';
 import ToDoCard from '../components/ToDoCard';
 import {fetchPatients, fetchRooms} from '../services/api';
 import ModalComp from '../components/ModalComp';
+import TaskModal from '../components/TaskModal';
 
 Chart.register(CategoryScale);
 
@@ -31,6 +32,7 @@ function Overview(props) {
 	const [patientData, setPatientData] = useState([]);
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
+	const [taskModalVisible, setTaskModalVisible] = useState(false);
 	const [tempChartData, setTempChartData] = useState({
 			labels: placeHolder_TempData.map((data, index) => index),
 			datasets: [
@@ -216,11 +218,15 @@ function Overview(props) {
 
 					{/* Room To-Do Section */}
 					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
-						<ToDoCard events={patientData.find((patient) => patient.id === room.patient).calendar?.events}/>
+						<ToDoCard
+							events={patientData.find((patient) => patient.id === room.patient).calendar?.events}
+							setModalVisible={setTaskModalVisible}
+						/>
 					</div>
 				</div>
 			)}
-			<ModalComp modalVisible={props.modalVisible} setModalVisible={props.setModalVisible}
+			<TaskModal modalVisible={taskModalVisible} setModalVisible={setTaskModalVisible}/>
+			<ModalComp modalVisible={props.roomModalVisible} setModalVisible={props.setRoomModalVisible}
 					   updateRoomsAndPatients={updateRoomsAndPatients}/>
 		</>
 	);
