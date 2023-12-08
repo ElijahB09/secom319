@@ -8,7 +8,7 @@ import AddProductForm from './AddProductForm';
 import {createProduct, deleteProduct, updateProduct} from './services/api';
 import UpdatePriceForm from './UpdatePriceForm';
 
-const render_card = (product, productCounts, handleDeleteProduct, setShowUpdatePrice, setCurrProduct, showUpdatePrice) => {
+const render_card = (product, productCounts, addProductToCart, handleDeleteProduct, handleShow) => {
 	const count = productCounts[product.id] || 0;
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
@@ -25,7 +25,7 @@ const render_card = (product, productCounts, handleDeleteProduct, setShowUpdateP
 				<Button variant="danger" onClick={() => handleDeleteProduct(product.id)} className="mt-2">
 					Delete
 				</Button>
-				<Button onClick={() => { setShowUpdatePrice(!showUpdatePrice); setCurrProduct(product.id); }} className="mt-2">
+				<Button onClick={() => handleShow(product.id)} className="mt-2">
 					Update
 				</Button>
 			</Card.Body>
@@ -33,7 +33,7 @@ const render_card = (product, productCounts, handleDeleteProduct, setShowUpdateP
 	);
 }
 
-export const renderProducts = (products, productCounts, addProductToCart, handleDeleteProduct, setShowUpdatePrice, setCurrProduct, showUpdatePrice) => {
+export const renderProducts = (products, productCounts, addProductToCart, handleDeleteProduct, handleShow) => {
 	return <div className='category-section fixed'>
 		<div className="m-6 p-3 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
 			 style={{
@@ -43,7 +43,7 @@ export const renderProducts = (products, productCounts, addProductToCart, handle
 				{products.map((product) => (
 					<div key={product.id}>
 						<Col>
-							{render_card(product, productCounts, addProductToCart, handleDeleteProduct, setShowUpdatePrice, setCurrProduct, showUpdatePrice)}
+							{render_card(product, productCounts, addProductToCart, handleDeleteProduct, handleShow)}
 						</Col>
 					</div>
 				))}
@@ -119,9 +119,14 @@ export const RenderProductPage = (products) => {
 	};
 
 	const handleDeleteProduct = async (productId) => {
-		const deletedProduct = await deleteProduct(productId);
+		await deleteProduct(productId);
 		window.location.reload();
 	};
+
+	const handleShow = (productId) => {
+		setCurrProduct(productId);
+		setShowUpdatePrice(true);
+	}
 
 	const handleUpdateProduct = async (productId, newPrice) => {
 		const data = {
@@ -165,7 +170,7 @@ export const RenderProductPage = (products) => {
 
 		<div id='product-catalog' className="flex fixed flex-row">
 			<div className="ml-5 p-10 xl:basis-4/5">
-				{renderProducts(filteredProducts, productCounts, addProductToCart, handleDeleteProduct, setShowUpdatePrice, setCurrProduct, showUpdatePrice)}
+				{renderProducts(filteredProducts, productCounts, addProductToCart, handleDeleteProduct, handleShow)}
 			</div>
 		</div>
 		{showPostProduct && (
@@ -181,19 +186,17 @@ export const RenderProductPage = (products) => {
 				</Modal.Body>
 			</Modal>
 		)}
-		{showUpdatePrice && (
-			<Modal show={showUpdatePrice} onHide={() => setShowUpdatePrice(false)}>
-				<Modal.Header closeButton>
-					<Modal.Title>Update Product Price</Modal.Title>
-				</Modal.Header>
-				<Modal.Body>
-					<UpdatePriceForm
-						productId={currProduct}
-						onUpdatePrice={handleUpdateProduct}
-						onCancel={() => setShowUpdatePrice(false)}
-					/>
-				</Modal.Body>
-			</Modal>
-		)}
+		<Modal show={showUpdatePrice} onHide={() => setShowUpdatePrice(false)}>
+			<Modal.Header closeButton>
+				<Modal.Title>Update Product Price</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<UpdatePriceForm
+					productId={currProduct}
+					onUpdatePrice={handleUpdateProduct}
+					onCancel={() => setShowUpdatePrice(false)}
+				/>
+			</Modal.Body>
+		</Modal>
 	</div>
 }

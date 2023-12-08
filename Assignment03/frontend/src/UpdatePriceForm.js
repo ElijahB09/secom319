@@ -13,7 +13,7 @@ const UpdatePriceForm = ({productId, onUpdatePrice, onCancel}) => {
 
     const handleSubmit = (e) => {
 		e.preventDefault();
-		onUpdatePrice(productId, newPrice);
+		onUpdatePrice(productId, newPrice.price);
 	};
 
     return (
@@ -23,7 +23,7 @@ const UpdatePriceForm = ({productId, onUpdatePrice, onCancel}) => {
 				<Form.Control
 					type="number"
 					placeholder="Enter new product price"
-					name="id"
+					name="price"
 					onChange={handleChange}
                     required
 				/>
