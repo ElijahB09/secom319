@@ -9,18 +9,17 @@ import {createProduct, deleteProduct, updateProduct} from './services/api';
 import UpdatePriceForm from './UpdatePriceForm';
 
 const render_card = (product, productCounts, addProductToCart, handleDeleteProduct, handleShow) => {
-	const count = productCounts[product.id] || 0;
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
 			<Card.Img variant="top" alt='Product Image_2' src={product.image}/>
 			<Card.Body className="flex-grow-1">
 				<Card.Title>{product.title}</Card.Title>
 				<Card.Text>
-					Some quick example text to build on the card title and make up the
-					bulk of the card's content.
+					{product.description}
 				</Card.Text>
 				<div>
-					<h4 id="product3-price" className="price">{formatter.format(product.price)}</h4>
+					<h4 id="product3-price" className="price">{formatter.format(product.price)}, In stock: {product.rating.count}</h4>
+					<h4 id="product3-price" className="price">Rating: {product.rating.rate}</h4>
 				</div>
 				<Button variant="danger" onClick={() => handleDeleteProduct(product.id)} className="mt-2">
 					Delete
@@ -59,6 +58,7 @@ export const RenderProductPage = (products) => {
 	const [showPostProduct, setPostProduct] = useState(false);
 	const [showUpdatePrice, setShowUpdatePrice] = useState(false);
 	const [currProduct, setCurrProduct] = useState();
+	const [showAboutUs, setShowAboutUs] = useState(false);
 
 	const addProductToCart = (product, isAdd) => {
 		const currentCount = productCounts[product.id] || 0;
@@ -165,6 +165,11 @@ export const RenderProductPage = (products) => {
 					</svg>
 					Add Product
 				</button>
+				<button id="cart-button" type="button"
+						className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+						onClick={() => setShowAboutUs(!showAboutUs)}>
+					About Us
+				</button>
 			</div>
 		</div>
 
@@ -196,6 +201,21 @@ export const RenderProductPage = (products) => {
 					onUpdatePrice={handleUpdateProduct}
 					onCancel={() => setShowUpdatePrice(false)}
 				/>
+			</Modal.Body>
+		</Modal>
+		<Modal show={showAboutUs} onHide={() => setShowAboutUs(false)}>
+			<Modal.Header closeButton>
+				<Modal.Title>About Us</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<div>
+					<h3 style={{marginTop:"25px"}}>SE/COMS319 Construction of User Interfaces, Fall 2023</h3>
+					<h3>{(new Date()).toLocaleDateString()}</h3>
+					<h3>Sam McGrath: sgm@iastate.edu</h3>
+					<h3>Elijah Brady: ebrady@iastate.edu</h3>
+					<h3>Dr. Abraham N. Aldaco Gastelum: aaldaco@iastate.edu</h3>
+					<h6 style={{marginTop:"25px"}}>Our third assignment of the year is a simple webpage which aims to display a catalogue of products and allow for the manipulation of these products. The user is able to add new products, view all products, update the price of a product, and delete a product from the catalogue. For this assignment we heavily used react-bootstrap's modals to solve various problems involving forms and switching views.</h6>
+				</div>
 			</Modal.Body>
 		</Modal>
 	</div>
