@@ -113,7 +113,25 @@ app.delete("/patients/:id", async (req, res) => {
     }
     res.status(200);
     res.send();
-})
+});
+
+app.put("/patients/:id", async (req, res) => {
+    const patientId = Number(req.params.id);
+    const supabase = createClient('https://onugnjxbswcerfbwsmqb.supabase.co', process.env.SUPABASE_KEY);
+
+    const { data: putData, putError } = await supabase
+        .from("patient")
+        .update({ calendar: req.body })
+        .eq("id", patientId)
+        .select();
+
+    if (putError) {
+        res.status(putError.code);
+        res.send(putError);
+    }
+    res.status(200);
+    res.send(putData);
+});
 
 const port = "8081";
 const host = "localhost";
