@@ -3,8 +3,8 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 function LineChart(props) {
 	return (
-		<div className="chart-container" style={{ width: "40%", margin: "auto" }}>
-			<h2 style={{ textAlign: "center" }}>{props.title}</h2>
+		<div className="chart-container" style={{ margin: "auto" }}>
+			<h2 style={{ textAlign: "center", color: "#cecfcf" }}>{props.title}</h2>
 			<Line
 				data={props.chartData}
 				options={{
@@ -19,15 +19,15 @@ function LineChart(props) {
 								display: false,
 							},
 							grid: {
-								color: "#CCCCCC", // X-axis grid line color
+								color: "#cecfcf", // X-axis grid line color
 							},
 						},
 						y: {
 							ticks: {
-								color: "#333333"
+								color: "#cecfcf"
 							},
 							grid: {
-								color: "#CCCCCC", // Y-axis grid line color
+								color: "#cecfcf", // Y-axis grid line color
 							},
 						},
 					},

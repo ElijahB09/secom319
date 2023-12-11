@@ -65,3 +65,7 @@ form {
     min-height: 100%;
     background-color: #336699;  /* Set your background color here */
 }
+
+.current-label {
+    color: #cecfcf;
+}

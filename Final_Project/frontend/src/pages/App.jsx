@@ -40,8 +40,8 @@ function App() {
 				<main className="col-md-8 col-lg-12 px-md-5">
 					{showOverview && <Overview
 					setSearchVisible={setSearchVisible}
-					modalVisible={modalVisible}
-					setModalVisible={setModalVisible}/>}
+					roomModalVisible={modalVisible}
+					setRoomModalVisible={setModalVisible}/>}
 					{aboutUs &&
 						<div>
 							<h1 style={{marginTop:"25px"}}>SE/COMS319 Construction of User Interfaces, Fall 2023</h1>
