@@ -1,0 +1,222 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.b-example-divider {
+  width: 100%;
+  height: 3rem;
+  background-color: rgba(0, 0, 0, .1);
+  border: solid rgba(0, 0, 0, .15);
+  border-width: 1px 0;
+  box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+}
+
+.b-example-vr {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 100vh;
+}
+
+.bi {
+  vertical-align: -.125em;
+  fill: currentColor;
+}
+
+.nav-scroller {
+  position: relative;
+  z-index: 2;
+  height: 2.75rem;
+  overflow-y: hidden;
+}
+
+.nav-scroller .nav {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-bottom: 1rem;
+  margin-top: -1px;
+  overflow-x: auto;
+  text-align: center;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+
+.btn-bd-primary {
+  --bd-violet-bg: #712cf9;
+  --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+  --bs-btn-font-weight: 600;
+  --bs-btn-color: white;
+  --bs-btn-bg: var(--bd-violet-bg);
+  --bs-btn-border-color: var(--bd-violet-bg);
+  --bs-btn-hover-color: white;
+  --bs-btn-hover-bg: #6528e0;
+  --bs-btn-hover-border-color: #6528e0;
+  --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+  --bs-btn-active-color: var(--bs-btn-hover-color);
+  --bs-btn-active-bg: #5a23c8;
+  --bs-btn-active-border-color: #5a23c8;
+}
+
+.bd-mode-toggle {
+  z-index: 1500;
+}
+
+.bd-mode-toggle .dropdown-menu .active .bi {
+  display: block !important;
+}
+
+.bi {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+}
+
+/*
+ * Sidebar
+ */
+
+@media (min-width: 768px) {
+  .sidebar .offcanvas-lg {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 48px;
+  }
+  .navbar-search {
+    display: block;
+  }
+}
+
+.sidebar .nav-link {
+  font-size: .875rem;
+  font-weight: 500;
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+}
+
+/*
+ * Navbar
+ */
+
+.navbar-brand {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  background-color: rgba(0, 0, 0, .25);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .form-control {
+  padding: .75rem 1rem;
+}
+
+.weather {
+  width: 3em;
+  height: 3em;
+  display: none;
+}
+
+.red-snowflake {
+  fill: red;
+}
+
+.light-blue-snowflake {
+  fill: cornflowerblue;
+}
+
+.blue-snowflake {
+  fill: blue;
+}
+
+.temperature-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+.temperature-box {
+  width: 40%;
+  padding: 20px;
+  margin: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.temperature {
+  font-size: 2em;
+}
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+}
+
+.arrow {
+  width: 1.5em;
+  height: 1.5em;
+  cursor: pointer;
+}
+
+.arrow-button {
+  padding: 5px;
+  margin-top: 5px;
+  background-color: #8e8e8e; /* Blue color for buttons */
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+.arrow:hover {
+  fill: #0056b3; /* Darker blue color on hover */
+}
+
+#temp-header {
+  margin-bottom: 20px;
+}
+
+#temp-table {
+  table-layout: fixed;
+  width: 100%; /* Set the overall table width */
+
+  /* Define equal or fixed column widths */
+  /* Adjust the column widths as needed */
+  /* In this example, each column has a fixed width */
+  /* You can use percentages or other units */
+}
+
+#temp-table th,
+#temp-table td {
+  text-align: left; /* Center-align content in cells */
+}
+
+/* Optional: Style the table headers for clarity */
+#temp-table th {
+  background-color: #007bff; /* Header background color */
+  color: white; /* Header text color */
+  font-weight: bold;
+}
+
+/* Optional: Style table rows for better readability */
+#temp-table tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alternating row background color */
+}

@@ -5,43 +5,34 @@ import {Col, Modal, Row} from 'react-bootstrap';
 import {formatter, productsInCart} from './shop';
 import './products.css';
 import AddProductForm from './AddProductForm';
-import {createProduct, deleteProduct} from './services/api';
+import {createProduct, deleteProduct, updateProduct} from './services/api';
+import UpdatePriceForm from './UpdatePriceForm';
 
-const render_card = (product, productCounts, addProductToCart, handleDeleteProduct) => {
-	const count = productCounts[product.id] || 0;
+const render_card = (product, productCounts, addProductToCart, handleDeleteProduct, handleShow) => {
 	return (
 		<Card className="d-flex flex-column" style={{width: '18rem'}}>
 			<Card.Img variant="top" alt='Product Image_2' src={product.image}/>
 			<Card.Body className="flex-grow-1">
 				<Card.Title>{product.title}</Card.Title>
 				<Card.Text>
-					Some quick example text to build on the card title and make up the
-					bulk of the card's content.
+					{product.description}
 				</Card.Text>
 				<div>
-					<h4 id="product3-price" className="price">{formatter.format(product.price)}</h4>
+					<h4 id="product3-price" className="price">{formatter.format(product.price)}, In stock: {product.rating.count}</h4>
+					<h4 id="product3-price" className="price">Rating: {product.rating.rate}</h4>
 				</div>
-				{/*<div className="input-group input-group-sm">*/}
-				{/*	<div className="input-group-prepend">*/}
-				{/*		<Button onClick={() => addProductToCart(product, true)} className="btn"*/}
-				{/*				variant="primary">+</Button>*/}
-				{/*	</div>*/}
-				{/*	<input id={`product-num-${product.id}`} type="text" className="form-control input-sm"*/}
-				{/*		   value={count}/>*/}
-				{/*	<div className="input-group-append">*/}
-				{/*		<Button onClick={() => addProductToCart(product, false)} className="btn"*/}
-				{/*				variant="primary">-</Button>*/}
-				{/*	</div>*/}
-				{/*</div>*/}
 				<Button variant="danger" onClick={() => handleDeleteProduct(product.id)} className="mt-2">
 					Delete
+				</Button>
+				<Button onClick={() => handleShow(product.id)} className="mt-2">
+					Update
 				</Button>
 			</Card.Body>
 		</Card>
 	);
 }
 
-export const renderProducts = (products, productCounts, addProductToCart, handleDeleteProduct) => {
+export const renderProducts = (products, productCounts, addProductToCart, handleDeleteProduct, handleShow) => {
 	return <div className='category-section fixed'>
 		<div className="m-6 p-3 mt-10 ml-0 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-10"
 			 style={{
@@ -51,7 +42,7 @@ export const renderProducts = (products, productCounts, addProductToCart, handle
 				{products.map((product) => (
 					<div key={product.id}>
 						<Col>
-							{render_card(product, productCounts, addProductToCart, handleDeleteProduct)}
+							{render_card(product, productCounts, addProductToCart, handleDeleteProduct, handleShow)}
 						</Col>
 					</div>
 				))}
@@ -65,6 +56,9 @@ export const RenderProductPage = (products) => {
 	const [productCounts, setProductCounts] = useState({});
 	const [searchQuery, setSearchQuery] = useState('');
 	const [showPostProduct, setPostProduct] = useState(false);
+	const [showUpdatePrice, setShowUpdatePrice] = useState(false);
+	const [currProduct, setCurrProduct] = useState();
+	const [showAboutUs, setShowAboutUs] = useState(false);
 
 	const addProductToCart = (product, isAdd) => {
 		const currentCount = productCounts[product.id] || 0;
@@ -117,7 +111,7 @@ export const RenderProductPage = (products) => {
 		}
 
 		const createdProduct = await createProduct(formattedData);
-		console.log('Adding product:', createdProduct);
+		console.log('Adding product: ', createdProduct);
 
 		window.location.reload();
 
@@ -125,13 +119,24 @@ export const RenderProductPage = (products) => {
 	};
 
 	const handleDeleteProduct = async (productId) => {
-
-		const deletedProduct = await deleteProduct(productId);
-
+		await deleteProduct(productId);
 		window.location.reload();
 	};
 
-	console.log(showPostProduct);
+	const handleShow = (productId) => {
+		setCurrProduct(productId);
+		setShowUpdatePrice(true);
+	}
+
+	const handleUpdateProduct = async (productId, newPrice) => {
+		const data = {
+			price: newPrice
+		}
+		const updatedProduct = await updateProduct(productId, data);
+		console.log('Updating product: ', updatedProduct);
+		window.location.reload();
+		setShowUpdatePrice(false);
+	}
 
 	return <div className="col-md-11 ms-sm-auto col-lg-12 px-md-4">
 		<div
@@ -160,12 +165,17 @@ export const RenderProductPage = (products) => {
 					</svg>
 					Add Product
 				</button>
+				<button id="cart-button" type="button"
+						className="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1"
+						onClick={() => setShowAboutUs(!showAboutUs)}>
+					About Us
+				</button>
 			</div>
 		</div>
 
 		<div id='product-catalog' className="flex fixed flex-row">
 			<div className="ml-5 p-10 xl:basis-4/5">
-				{renderProducts(filteredProducts, productCounts, addProductToCart, handleDeleteProduct)}
+				{renderProducts(filteredProducts, productCounts, addProductToCart, handleDeleteProduct, handleShow)}
 			</div>
 		</div>
 		{showPostProduct && (
@@ -181,5 +191,32 @@ export const RenderProductPage = (products) => {
 				</Modal.Body>
 			</Modal>
 		)}
+		<Modal show={showUpdatePrice} onHide={() => setShowUpdatePrice(false)}>
+			<Modal.Header closeButton>
+				<Modal.Title>Update Product Price</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<UpdatePriceForm
+					productId={currProduct}
+					onUpdatePrice={handleUpdateProduct}
+					onCancel={() => setShowUpdatePrice(false)}
+				/>
+			</Modal.Body>
+		</Modal>
+		<Modal show={showAboutUs} onHide={() => setShowAboutUs(false)}>
+			<Modal.Header closeButton>
+				<Modal.Title>About Us</Modal.Title>
+			</Modal.Header>
+			<Modal.Body>
+				<div>
+					<h3 style={{marginTop:"25px"}}>SE/COMS319 Construction of User Interfaces, Fall 2023</h3>
+					<h3>{(new Date()).toLocaleDateString()}</h3>
+					<h3>Sam McGrath: sgm@iastate.edu</h3>
+					<h3>Elijah Brady: ebrady@iastate.edu</h3>
+					<h3>Dr. Abraham N. Aldaco Gastelum: aaldaco@iastate.edu</h3>
+					<h6 style={{marginTop:"25px"}}>Our third assignment of the year is a simple webpage which aims to display a catalogue of products and allow for the manipulation of these products. The user is able to add new products, view all products, update the price of a product, and delete a product from the catalogue. For this assignment we heavily used react-bootstrap's modals to solve various problems involving forms and switching views.</h6>
+				</div>
+			</Modal.Body>
+		</Modal>
 	</div>
 }
