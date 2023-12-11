@@ -5,11 +5,11 @@ import '../styling/dashboard.scss'
 import CardComp from '../components/CardComp';
 import Chart from "chart.js/auto";
 import {CategoryScale} from "chart.js";
-import {Data} from '../utils/Data';
 import LineChart from '../components/LineChart';
 import ToDoCard from '../components/ToDoCard';
 import {fetchPatients, fetchRooms} from '../services/api';
 import ModalComp from '../components/ModalComp';
+import TaskModal from '../components/TaskModal';
 
 Chart.register(CategoryScale);
 
@@ -32,11 +32,12 @@ function Overview(props) {
 	const [patientData, setPatientData] = useState([]);
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
+	const [taskModalVisible, setTaskModalVisible] = useState(false);
 	const [tempChartData, setTempChartData] = useState({
 			labels: placeHolder_TempData.map((data, index) => index),
 			datasets: [
 				{
-					label: "Users Gained ",
+					label: "Temperature (°F) ",
 					data: placeHolder_TempData.map((data) => data),
 					backgroundColor: [
 						"#66CCFF"
@@ -51,7 +52,7 @@ function Overview(props) {
 		labels: placeHolder_HumidData.map((data, index) => index),
 		datasets: [
 			{
-				label: "Users Gained ",
+				label: "Humidity % ",
 				data: placeHolder_HumidData.map((data) => data),
 				backgroundColor: ["#66CCFF"],
 				borderColor: "#4CAF50",
@@ -121,10 +122,9 @@ function Overview(props) {
 			labels: room.climate?.past_humidities.map((data, index) => index),
 			datasets: [
 				{
-					label: "Users Gained ",
 					data: roomData[roomId].climate?.past_humidities.map((data) => data),
-					backgroundColor: ["#66CCFF"],
-					borderColor: "#4CAF50",
+					backgroundColor: ["#cecfcf"],
+					borderColor: "#cecfcf",
 					borderWidth: 2
 				}
 			]
@@ -166,34 +166,73 @@ function Overview(props) {
 			)}
 			{roomViewVisible && (
 				<div id="card-view">
-					<h1>Room: {room.room_num}</h1>
-					<h2>Patient: {patientData.find((patient) => patient.id === room.patient).name}</h2>
-					<div className="row">
-						<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
-						<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
+					<div className='d-flex justify-content-center'>
+						<div className="current-label" style={{
+							background: '#6c757d',
+							borderRadius: '10px',
+							padding: '20px',
+							margin: '10px',
+							width: 'fit-content',
+							textAlign: 'center'
+						}}>
+							<h1>Room: {room.room_num}</h1>
+							<h2>Patient: {patientData.find((patient) => patient.id === room.patient).name}</h2>
+						</div>
 					</div>
+
 					<div className="row">
-						<div className="col-md-6">
-							<div className="temperature-info">
-								<p><strong>Current Temperature:</strong> {room.climate.current_temp_f}°F</p>
-								<p><strong>Ideal Temperature:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_temp}°F</p>
+						<div className="col-md-6" style={{
+							background: '#6c757d',
+							borderRadius: '10px',
+							boxShadow: '0 5px 15px rgba(0, 0, 0, 0.15)',
+							padding: '20px',
+							margin: '10px',
+							width: '48%'
+						}}>
+							<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
+							<div className="temperature-info mt-3">
+								<p className="current-label"><strong>Current
+									Temperature:</strong> {room.climate.current_temp_f}°F</p>
+								<p className="current-label"><strong>Ideal
+									Temperature:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_temp}°F
+								</p>
 							</div>
 						</div>
-						<div className="col-md-6">
-							<div className="humidity-info">
-								<p><strong>Current Humidity:</strong> {room.climate.current_humidity}%</p>
-								<p><strong>Ideal Humidity:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_humidity}%</p>
+						<div className="col-md-6" style={{
+							background: '#6c757d',
+							borderRadius: '10px',
+							padding: '20px',
+							margin: '10px',
+							width: '48%'
+						}}>
+							<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
+							<div className="humidity-info mt-3">
+								<p className="current-label"><strong>Current
+									Humidity:</strong> {room.climate.current_humidity}%</p>
+								<p className="current-label"><strong>Ideal
+									Humidity:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_humidity}%
+								</p>
 							</div>
 						</div>
 					</div>
 
 					{/* Room To-Do Section */}
 					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
-						<ToDoCard events={patientData.find((patient) => patient.id === room.patient).calendar?.events}/>
+						<ToDoCard
+							events={patientData.find((patient) => patient.id === room.patient).calendar?.events}
+							setModalVisible={setTaskModalVisible}
+						/>
 					</div>
 				</div>
 			)}
-			<ModalComp modalVisible={props.modalVisible} setModalVisible={props.setModalVisible} updateRoomsAndPatients={updateRoomsAndPatients}/>
+			<TaskModal
+				events={patientData.find((patient) => patient.id === room?.patient)?.calendar?.events}
+				patientId={patientData.find((patient) => patient.id === room?.patient)?.id}
+				updateRoomsAndPatients={updateRoomsAndPatients}
+				modalVisible={taskModalVisible}
+				setModalVisible={setTaskModalVisible}/>
+			<ModalComp modalVisible={props.roomModalVisible} setModalVisible={props.setRoomModalVisible}
+					   updateRoomsAndPatients={updateRoomsAndPatients}/>
 		</>
 	);
 }

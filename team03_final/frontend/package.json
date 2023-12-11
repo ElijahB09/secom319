@@ -11,10 +11,12 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-chartjs-2": "^5.2.0",
+    "react-day-picker": "^8.9.1",
     "react-dom": "^18.2.0",
     "react-native": "^0.72.7",
     "react-native-web": "^0.19.9",
     "react-scripts": "5.0.1",
+    "react-weekday-picker": "^1.0.8",
     "reactjs-popup": "^2.0.6",
     "sass": "^1.69.5",
     "web-vitals": "^2.1.4"

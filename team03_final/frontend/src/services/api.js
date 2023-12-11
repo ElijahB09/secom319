@@ -49,3 +49,25 @@ export const createPatient = async (patientData) => {
 		throw error;
 	}
 };
+
+export const updatePatientCalendar = async (patientId, calendarData) => {
+	try {
+		const response = await fetch(`http://localhost:8081/patients/${patientId}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(calendarData),
+		});
+
+		if (!response.ok) {
+			throw new Error('Failed to update patient calendar');
+		}
+
+		const data = await response.json();
+		return data;
+	} catch (error) {
+		console.error('Error updating patient calendar:', error.message);
+		throw error;
+	}
+};
