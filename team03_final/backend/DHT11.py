@@ -1,10 +1,6 @@
-import requests
-import base64
 import time
 import board
 import adafruit_dht
-import json
-from datetime import datetime
 from dotenv import load_dotenv
 import os
 from supabase import create_client, Client
