@@ -39,6 +39,10 @@ function CardComp(props) {
 						<Card.Text>
 							Humidity: {props.room.climate?.current_humidity}%
 						</Card.Text>
+						{props.room.climate?.current_temp_f && props.room.climate.current_temp_f < 60 && (
+							<span style={{ color: 'red', marginLeft: '5px' }}>Temperature Alert!</span>
+						)}
+						<div style={{margin: "20px"}}></div>
 					</>
 				);
 			case '#todo-list':
