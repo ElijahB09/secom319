@@ -27,8 +27,9 @@ const placeHolder_HumidData = [
 
 function Overview(props) {
 	const [roomId, setRoomId] = useState();
-	const [room, setRoom] = useState();
+	const [room, setRoom] = useState({});
 	const [roomData, setRoomData] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [patientData, setPatientData] = useState([]);
 	const [cardOverviewVisible, setCardOverviewVisible] = useState(true);
 	const [roomViewVisible, setRoomViewVisible] = useState(false);
@@ -74,8 +75,8 @@ function Overview(props) {
 		};
 
 		fetchDataFromApi().then(() => {
-			console.log(roomData);
-			console.log(patientData);
+			// console.log(roomData);
+			// console.log(patientData);
 		});
 	}, []);
 
@@ -91,44 +92,63 @@ function Overview(props) {
 	};
 
 
-	console.log(roomData);
-	console.log(patientData);
+	// console.log(roomData);
+	// console.log(patientData);
 
 	// console.log(roomData);
 	// console.log(patientData);
 
+	useEffect(() => {
+		console.log("WOWOWO");
+		// This effect runs when roomData or roomId changes
+		if (roomId && roomData.length > 0) {
+			const selectedRoom = roomData.find((r) => r.id === roomId);
+			setRoom(selectedRoom);
+			console.log(selectedRoom);
+			setTempChartData({
+				labels: selectedRoom?.climate?.past_temps_f.map((data, index) => index) || [],
+				datasets: [
+					{
+						label: "Users Gained",
+						data: selectedRoom?.climate?.past_temps_f || [],
+						backgroundColor: ["#66CCFF"],
+						borderColor: "#4CAF50",
+						borderWidth: 2,
+					},
+				],
+			});
+			setHumidityChartData({
+				labels: selectedRoom?.climate?.past_humidities.map((data, index) => index) || [],
+				datasets: [
+					{
+						data: selectedRoom?.climate?.past_humidities || [],
+						backgroundColor: ["#cecfcf"],
+						borderColor: "#cecfcf",
+						borderWidth: 2,
+					},
+				],
+			});
+			setLoading(false);
+		}
+	}, [roomId, roomData]);
+
+	// const handleCardClick = (roomId) => {
+	// 	// console.log(roomId);
+	// 	setRoomId(roomId);
+	// 	// console.log(roomData);
+	// 	setCardOverviewVisible(!cardOverviewVisible);
+	// 	props.setSearchVisible(!cardOverviewVisible);
+	// 	setRoomViewVisible(!roomViewVisible);
+	// 	setRoom(roomData.find((room) => (room.id === roomId)));
+	// 	console.log(roomData.find((room) => (room.id === roomId)));
+	// 	console.log(room);
+	// };
+
 	const handleCardClick = (roomId) => {
-		console.log(roomId);
 		setRoomId(roomId);
 		setCardOverviewVisible(!cardOverviewVisible);
 		props.setSearchVisible(!cardOverviewVisible);
 		setRoomViewVisible(!roomViewVisible);
-		setRoom(roomData.find((room) => (room.id === roomId)));
-		room && setTempChartData({
-			labels: room.climate?.past_temps_f.map((data, index) => index),
-			datasets: [
-				{
-					label: "Users Gained ",
-					data: roomData[roomId].climate?.past_temps_f.map((data) => data),
-					backgroundColor: [
-						"#66CCFF"
-					],
-					borderColor: "#4CAF50",
-					borderWidth: 2
-				}
-			]
-		});
-		room && setHumidityChartData({
-			labels: room.climate?.past_humidities.map((data, index) => index),
-			datasets: [
-				{
-					data: roomData[roomId].climate?.past_humidities.map((data) => data),
-					backgroundColor: ["#cecfcf"],
-					borderColor: "#cecfcf",
-					borderWidth: 2
-				}
-			]
-		});
 	};
 
 	const renderCards = () => {
@@ -176,7 +196,7 @@ function Overview(props) {
 							textAlign: 'center'
 						}}>
 							<h1>Room: {room.room_num}</h1>
-							<h2>Patient: {patientData.find((patient) => patient.id === room.patient).name}</h2>
+							<h2>Patient: {patientData.find((patient) => patient.id === room.patient)?.name}</h2>
 						</div>
 					</div>
 
@@ -189,14 +209,18 @@ function Overview(props) {
 							margin: '10px',
 							width: '48%'
 						}}>
-							<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
-							<div className="temperature-info mt-3">
-								<p className="current-label"><strong>Current
-									Temperature:</strong> {room.climate.current_temp_f}°F</p>
-								<p className="current-label"><strong>Ideal
-									Temperature:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_temp}°F
-								</p>
-							</div>
+							{!loading && (
+								<>
+									<LineChart chartData={tempChartData} title={"Temperature Recording"}/>
+									<div className="temperature-info mt-3">
+										<p className="current-label"><strong>Current
+											Temperature:</strong> {room?.climate?.current_temp_f}°F</p>
+										<p className="current-label"><strong>Ideal
+											Temperature:</strong> {patientData.find((patient) => patient.id === room.patient)?.ideal_temp}°F
+										</p>
+									</div>
+								</>
+							)}
 						</div>
 						<div className="col-md-6" style={{
 							background: '#6c757d',
@@ -205,21 +229,25 @@ function Overview(props) {
 							margin: '10px',
 							width: '48%'
 						}}>
-							<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
-							<div className="humidity-info mt-3">
-								<p className="current-label"><strong>Current
-									Humidity:</strong> {room.climate.current_humidity}%</p>
-								<p className="current-label"><strong>Ideal
-									Humidity:</strong> {patientData.find((patient) => patient.id === room.patient).ideal_humidity}%
-								</p>
-							</div>
+							{!loading && (
+								<>
+									<LineChart chartData={humidityChartData} title={"Humidity Recording"}/>
+									<div className="humidity-info mt-3">
+										<p className="current-label"><strong>Current
+											Humidity:</strong> {room?.climate?.current_humidity}%</p>
+										<p className="current-label"><strong>Ideal
+											Humidity:</strong> {patientData.find((patient) => patient.id === room.patient)?.ideal_humidity}%
+										</p>
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 
 					{/* Room To-Do Section */}
 					<div className="room-todo-section d-flex justify-content-center" style={{textAlign: 'center'}}>
 						<ToDoCard
-							events={patientData.find((patient) => patient.id === room.patient).calendar?.events}
+							events={patientData.find((patient) => patient.id === room.patient)?.calendar?.events}
 							setModalVisible={setTaskModalVisible}
 						/>
 					</div>
